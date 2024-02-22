@@ -1,0 +1,97 @@
+﻿@page
+@model Nursery.Pages.TestMapModel
+@Html.AntiForgeryToken()
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+@{
+    Layout = null;
+
+}
+<html>
+<head>
+    <title>Event Click LatLng</title>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <style>
+        #map {
+            height: 100%;
+        }
+
+        /*
+         * Optional: Makes the sample page fill the window.
+         */
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <script>
+        const process = { env: {} };
+        process.env.GOOGLE_MAPS_API_KEY =
+          "AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg";
+    </script>
+
+
+
+</head>
+<body>
+    <div style="padding:20px">
+        <label>Lat</label>
+        <input type="text" value="" id="LatId" />
+    </div>
+    <div style="padding:20px">
+        <label>Lng</label>
+        <input type="text" value="" id="LngId" />
+    </div>
+    <div id="map" style="height:400px;width:400px;margin:auto"></div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfsM19EfsfREOaCkPjRAVMYdTIXToo0FE&callback=initMap&v=weekly" defer></script>
+
+
+</body>
+</html>
+<script>
+
+    //Object.defineProperty(exports, "__esModule", { value: true });
+    function initMap() {
+        //var check=confirm("You are Sure From This Location");
+        var myLatlng = { lat: 29.378586, lng: 47.990341 };
+        var map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 4,
+            center: myLatlng,
+        });
+        
+        var infoWindow = new google.maps.InfoWindow({
+            content: "Select Location",
+            position: myLatlng,
+        });
+        infoWindow.open(map);
+        // Configure the click listener.
+        map.addListener("click", function (mapsMouseEvent) {
+            // Close the current InfoWindow.
+          var jsonobj=JSON.stringify(mapsMouseEvent.latLng.toJSON());
+          var myObj = JSON.parse(jsonobj);
+            sendReq(myObj);
+
+            infoWindow.close();
+            // Create a new InfoWindow.
+            infoWindow = new google.maps.InfoWindow({
+                position: mapsMouseEvent.latLng,
+            });
+            infoWindow.setContent(JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2));
+            infoWindow.open(map);
+                });
+    }
+    window.initMap = initMap;
+
+    function sendReq(obj){
+        console.log(obj);
+        document.getElementById("LatId").value=obj.lat;
+        document.getElementById("LngId").value=obj.lng;
+        }
+
+
+
+
+</script>

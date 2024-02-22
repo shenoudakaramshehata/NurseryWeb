@@ -1,0 +1,153 @@
+﻿@page
+@model Nursery.Areas.Admin.Pages.PublicNotifications.AddModel
+@{
+}
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-header d-flex justify-content-between align-items-center">
+                            @sharedResource["Add"]  @sharedResource["PublicNotification"]
+                            <a asp-page="Index" class="btn btn-primary"> @sharedResource["Back"]</a>
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        <form id="form" method="post" enctype="multipart/form-data">
+                         @Html.Hidden("EntityId", "")
+                            @(Html.DevExtreme().Form<Nursery.Models.PublicNotification>()
+
+    .ID("PublicNotificationForm")
+    .OnInitialized("onFormInitialized")
+.Items(items => {
+    items.AddSimpleFor(m => m.CountryId).IsRequired(true).Label(k => k.Text(sharedResource["Country"]))
+               .Editor(e => e
+                   .Lookup()
+                   .ID("CountryLookup")
+                   .DataSource(ds => ds.WebApi().Controller("PublicNotifications").LoadAction("CountryLookup").Key("Value"))
+                   .ValueExpr("Value")
+                   .DisplayExpr("Text")
+                   .OnSelectionChanged("GetNurseries")
+                    .RtlEnabled(bool.Parse(sharedResource["ArLang"]))
+                     .Placeholder(sharedResource["Select"])
+                                                        .ShowClearButton(true)
+                                                        .ClearButtonText(sharedResource["Clear"])
+                                                        .CancelButtonText(sharedResource["Cancel"])
+                                                        .SearchPlaceholder(sharedResource["searching"])
+               );
+    items.AddSimpleFor(m => m.Title).IsRequired(true).Label(k => k.Text(sharedResource["Title"]));
+    items.AddSimpleFor(m => m.Body).IsRequired(true).Label(k => k.Text(sharedResource["Body"])).Editor(c => c.TextArea().Height(150));
+    items.AddSimpleFor(m => m.EntityTypeNotifyId).IsRequired(true).Label(k => k.Text(sharedResource["Type"]))
+        .Editor(e => e
+            .Lookup()
+            .DataSource(ds => ds.WebApi().Controller("PublicNotifications").LoadAction("SliderTypeLookup").Key("Value"))
+            .ValueExpr("Value")
+            .DisplayExpr("Text")
+             .Placeholder(sharedResource["Select Type"])
+                                                        .ShowClearButton(true)
+                                                        .ClearButtonText(sharedResource["Clear"])
+                                                        .CancelButtonText(sharedResource["Cancel"])
+                                                        .SearchPlaceholder(sharedResource["searching"])
+             .OnValueChanged("onValueChanged")
+                 .RtlEnabled(bool.Parse(sharedResource["ArLang"]))
+             );
+    items.AddSimpleFor(m => m.EntityId)
+           .Editor(e => e
+                .Lookup()
+                .ID("NurseryLookup")
+                 .DataSource(ds => ds.WebApi().Controller("PublicNotifications").LoadAction("NurseryLookup").Key("Value").LoadParams(new {CountryId=0}))
+          .DisplayExpr("Text")
+            .ValueExpr("Value")
+      
+       .RtlEnabled(bool.Parse(sharedResource["ArLang"]))
+        .Placeholder(sharedResource["Select"])
+                                                        .ShowClearButton(true)
+                                                        .ClearButtonText(sharedResource["Clear"])
+                                                        .CancelButtonText(sharedResource["Cancel"])
+                                                        .SearchPlaceholder(sharedResource["searching"])
+                                                        .OnSelectionChanged("NurseryValueChanged")
+
+                 ).Label(k => k.Text(sharedResource["Nursery"])).Name("Nursery").Visible(false).IsRequired(true);
+
+    items.AddButton()
+  .ColSpan(3)
+  .HorizontalAlignment(HorizontalAlignment.Right)
+  .ButtonOptions(b => b.Text(sharedResource["Save"])
+  .Type(ButtonType.Success)
+  .UseSubmitBehavior(true)).CssClass("invers");
+})
+                            )
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+     function GetNurseries() {
+        var Country = $("#CountryLookup").dxLookup("instance");
+        var SelectedCountry = Country.option("selectedItem");
+        console.log(SelectedCountry)
+        if (SelectedCountry != null) {
+            $.ajax({
+
+                type: "GET",
+                url: "Add?handler=FillNurseryList",
+                data: { "values": SelectedCountry.Value },
+                contentType: "application/json",
+                dataType: "json",
+                success: function (response) {
+                    console.log("List Nurseries" + response)
+                    var Nursery = $("#NurseryLookup").dxLookup("instance");
+                    console.log(Nursery)
+                    Nursery.option("dataSource", response)
+                    //Nursery.refresh()
+
+                },
+                failure: function (response) {
+                    alert(response);
+                }
+            });
+
+        }
+    }
+    var form
+    function onFormInitialized(e) {
+        form = e.component;
+    }
+
+
+    function NurseryValueChanged(data) {
+        $("#EntityId").val(data.selectedItem.Value);
+    }
+
+    
+    function onValueChanged(e) {
+
+        if (e.value === 1) {
+
+            form.itemOption("Nursery", "visible", true);
+           
+           
+
+        }
+
+        if (e.value === 2) {
+            form.itemOption("Nursery", "visible", false);
+            
+            
+
+        }
+
+
+
+
+    }
+
+
+</script>

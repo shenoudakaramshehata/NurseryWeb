@@ -1,0 +1,97 @@
+﻿@page
+@model Nursery.Areas.Admin.Pages.PublicNotifications.SendModel
+@{
+}
+
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-header d-flex justify-content-between align-items-center">
+                            @sharedResource["Details"]
+                            <a asp-page="Index" class="btn btn-primary"> @sharedResource["Back"]</a>
+                        </h2>
+                    </div>
+                    <div class="card-body">
+
+
+                        <div style="padding-top:20px;padding-left:20px;padding-right:20px">
+                            <div class="row">
+                                <div class="col-md-12 col-lg-6 mt-4">
+                                    <h4>@sharedResource["Informations"] </h4>
+                                    <hr />
+                                    <div class="col-md-12 col-lg-12 mt-4">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">@sharedResource["Title"]  </dt>
+                                        <dd class="col-sm-8"> @Model.publicNotification.Title </dd>
+                                    </dl>
+                                    </div>
+                                    <div class="col-md-12 col-lg-12 mt-4">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">@sharedResource["Body"] </dt>
+                                        <dd class="col-sm-8"> @Model.publicNotification.Body </dd>
+                                    </dl>
+                                    </div>
+                                   
+                                        <div class="col-md-12 col-lg-12 mt-4">
+                                   @* <dl class="row">
+                                        <dt class="col-sm-4">@sharedResource["Type"]</dt>
+                                        <dd class="col-sm-8"> @Model.publicNotification.EntityType.EntityTypeTlar </dd>
+                                    </dl>*@
+                                      <dl class="row">
+                                        <dt class="col-sm-4">@sharedResource["Type"]</dt>
+                                        <dd class="col-sm-8"> @Model.publicNotification.EntityTypeNotify.TitleAr </dd>
+                                    </dl>
+                                    </div>
+                                   
+                                        <div class="col-md-12 col-lg-12 mt-4">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">@sharedResource["NameAr"] </dt>
+                                        <dd class="col-sm-8"> @Model.publicNotification.EntityNameAr </dd>
+                                    </dl>
+                                    </div>
+                                  
+                                      <div class="col-md-12 col-lg-12 mt-4">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">@sharedResource["NameEn"] </dt>
+                                        <dd class="col-sm-8"> @Model.publicNotification.EntityNameEn  </dd>
+                                    </dl>
+                                    </div>
+
+                                        <div class="col-md-12 col-lg-12 mt-4">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">@sharedResource["Country"] </dt>
+                                        <dd class="col-sm-8">  @Model.publicNotification.Country.CountryTlAr  </dd>
+                                    </dl>
+                                    </div>
+                                  
+
+                                </div>
+
+
+                                <form method="post">
+                        <br />
+                        <div class="invers">
+                            @(Html.DevExtreme().Button()
+                    .ID("button")
+                    .Text(sharedResource["Send"])
+                    .Type(ButtonType.Default)
+                    .UseSubmitBehavior(true)
+
+                    )
+                        </div>
+
+                    </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    
+            </div>
+        </div>
+    </div>
+</div>

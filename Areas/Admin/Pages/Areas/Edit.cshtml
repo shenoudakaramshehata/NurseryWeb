@@ -1,0 +1,106 @@
+﻿@page
+@model Nursery.Areas.Admin.Pages.Areas.EditModel
+@{
+}
+
+
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-header d-flex justify-content-between align-items-center">
+                            @sharedResource["Edit"]  @sharedResource["Area"]
+                            <a asp-page="Index" class="btn btn-primary"> @sharedResource["Back"]</a>
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        <br />
+                        <form id="form" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="AreaId" asp-for="area.AreaIsActive" value="@Model.area.AreaId" />
+
+                            @(Html.DevExtreme().Form<Nursery.Models.Area>
+
+                                ()
+                                .FormData(Model.area)
+                                .Items(items =>
+                                {
+
+
+
+                                    items.AddSimpleFor(m => m.AreaTlAr).IsRequired(true).Label(k => k.Text(sharedResource["TlAr"])).ColSpan(1);
+                                    items.AddSimpleFor(m => m.AreaTlEn).IsRequired(true).Label(k => k.Text(sharedResource["TlEn"]));
+                                    items.AddSimpleFor(m => m.AreaOrderIndex).IsRequired(true).Label(k => k.Text(sharedResource["Sort"]));
+                                    items.AddSimpleFor(m => m.AreaIsActive).Label(k => k.Text(sharedResource["IsActive"]));
+
+                                    items.AddSimple().IsRequired(true).Label(k => k.Text(sharedResource["Country"]))
+                                        .Editor(e => e
+                                            .Lookup()
+                                            .ID("CountryLookup")
+                                            .DataSource(ds => ds.WebApi().Controller("Areas").LoadAction("CountryLookup").Key("Value"))
+                                            .ValueExpr("Value")
+                                            .DisplayExpr("Text").OnValueChanged("GetCities")
+                                        .Value(Model.countryId)
+                                        );
+
+                                    items.AddSimpleFor(m => m.CityId).IsRequired(true).Label(k => k.Text(sharedResource["City"]))
+                                            .Editor(e => e
+                                                .Lookup()
+                                                .ID("CityLookup")
+                                                .DataSource(ds => ds.WebApi().Controller("Areas").LoadAction("CityLookup").Key("Value").LoadParams(new {CountryId=Model.countryId}))
+                                 
+                                                .ValueExpr("Value")
+                                                .DisplayExpr("Text")
+                                                
+                                            );
+                                    items.AddButton()
+                                .ColSpan(3)
+                                .HorizontalAlignment(HorizontalAlignment.Right)
+                                .ButtonOptions(b => b.Text(sharedResource["Save"])
+                                .Type(ButtonType.Success)
+                                .UseSubmitBehavior(true)).CssClass("invers");
+                                })
+                                )
+                        </form>
+</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+     function GetCities() {
+        var Country = $("#CountryLookup").dxLookup("instance");
+        var SelectedCountry = Country.option("selectedItem");
+        console.log(SelectedCountry)
+        if (SelectedCountry != null) {
+            $.ajax({
+
+                type: "GET",
+                url: "Edit?handler=FillCityList",
+                data: { "values": SelectedCountry.Value },
+                contentType: "application/json",
+                dataType: "json",
+                success: function (response) {
+                    console.log("List Cities" + response)
+                    var City = $("#CityLookup").dxLookup("instance");
+                    console.log(City)
+                    City.option("dataSource", response)
+                    //Nursery.refresh()
+
+                },
+                failure: function (response) {
+                    alert(response);
+                }
+            });
+
+        }
+    }
+</script>
+
+
+
+

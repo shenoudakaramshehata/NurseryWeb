@@ -1,0 +1,100 @@
+﻿@page
+@model Nursery.Areas.Admin.Pages.SystemConfigration.ContactsInfoModel
+@{
+}
+
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-header d-flex justify-content-between align-items-center">
+                            @sharedResource["ContactsInfo"]
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        @(Html.DevExtreme().DataGrid<Nursery.Models.Configuration>
+    ()
+    .DataSource(ds => ds.Mvc()
+    .Controller("Configurations")
+    .LoadAction("Get")
+    .InsertAction("Post")
+    .UpdateAction("Put")
+    .DeleteAction("Delete")
+    .Key("ConfigurationId")
+    )
+    .RemoteOperations(true)
+    .Columns(columns => {
+
+        columns.AddFor(m => m.Phone).Caption(sharedResource["Phone"]);
+        columns.AddFor(m => m.Email).Caption(sharedResource["Email"]);
+        columns.AddFor(m => m.Address).Caption(sharedResource["Address"]);
+        columns.AddFor(m => m.Facebook).Caption(sharedResource["Facebook"]);
+        columns.AddFor(m => m.WhatsApp).Caption(sharedResource["WhatsApp"]);
+        columns.AddFor(m => m.LinkedIn).Caption(sharedResource["LinkedIn"]);
+        columns.AddFor(m => m.Instgram).Caption(sharedResource["Instgram"]);
+        columns.AddFor(m => m.Twitter).Caption(sharedResource["Twitter"]);
+    })
+   .Editing(e => e.Mode(GridEditMode.Popup)
+.Texts(c => c.CancelRowChanges(sharedResource["Cancel"]).SaveRowChanges(sharedResource["Save"]).EditRow(sharedResource["Edit"]).AddRow(sharedResource["Add"]))
+                        .UseIcons(true)
+
+    .AllowUpdating(true)
+    .AllowAdding(false)
+    .AllowDeleting(false)
+    .Popup(p => p
+    .Title(sharedResource["Edit Contact Us"])
+    .ShowTitle(true)
+    .MaxWidth(750)
+    .Height(300)).Form(f => f.Items(items =>
+    {
+        items.AddGroup()
+        .ColCount(2)
+        .ColSpan(2)
+        .Items(groupItems =>
+        {
+            groupItems.AddSimple().DataField("Phone");
+            groupItems.AddSimple().DataField("Email");
+            groupItems.AddSimple().DataField("Address");
+            groupItems.AddSimple().DataField("Facebook");
+            groupItems.AddSimple().DataField("WhatsApp");
+            groupItems.AddSimple().DataField("LinkedIn");
+            groupItems.AddSimple().DataField("Twitter");
+            groupItems.AddSimple().DataField("Instgram");
+
+        });
+
+    }))
+    )
+
+    .ShowBorders(true)
+    .FilterRow(filterRow => filterRow
+    .Visible(true)
+    .ApplyFilter(GridApplyFilterMode.Auto)
+    )
+    .SearchPanel(searchPanel => searchPanel
+    .Visible(true)
+    .Width(240)
+            .Placeholder(sharedResource["SearchTxt"])
+
+    )
+    .HeaderFilter(headerFilter => headerFilter.Visible(true))
+    .ShowRowLines(true).ShowColumnLines(true)
+    .RowAlternationEnabled(true)
+        .RtlEnabled(bool.Parse(sharedResource["ArLang"]))
+
+    )
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

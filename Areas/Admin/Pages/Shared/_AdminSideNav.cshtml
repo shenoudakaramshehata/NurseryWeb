@@ -1,0 +1,125 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+
+
+
+}
+
+<!-- ========== Left Sidebar Start ========== -->
+<div class="vertical-menu">
+
+    <div data-simplebar class="h-100">
+
+        <!--- Sidemenu -->
+        <div id="sidebar-menu">
+            <!-- Left Menu Start -->
+            <ul class="metismenu list-unstyled" id="side-menu">
+                <li class="menu-title"></li>
+
+
+                @*<li>
+                    <a href="/Admin/Banners" class="waves-effect">
+                        <span class="badge rounded-pill bg-primary float-end"></span>
+                        <i class="mdi mdi-view-dashboard"></i>
+                        <span>@sharedResource["Banners"] </span>
+                    </a>
+
+                </li>*@
+                 <li>
+                    <a href="/Admin/index" class="waves-effect">
+                        <span class="badge rounded-pill bg-primary float-end"></span>
+                        <i class="mdi mdi-view-dashboard"></i>
+                        <span>@sharedResource["Main Page"]  </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Admin/Advertisements" class="waves-effect">
+                        <span class="badge rounded-pill bg-primary float-end"></span>
+                        <i class="mdi mdi-view-dashboard"></i>
+                        <span>@sharedResource["Advertisements"]  </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Admin/PublicNotifications" class="waves-effect">
+                        <span class="badge rounded-pill bg-primary float-end"></span>
+                        <i class="mdi mdi-view-dashboard"></i>
+                        <span> @sharedResource["PublicNotification"] </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="waves-effect" aria-expanded="false">
+                        <i class="mdi mdi-view-dashboard"></i>
+                        <span> @sharedResource["Configruration"] </span>
+                    </a>
+                    <ul class="sub-menu mm-collapse" aria-expanded="false">
+                        <li><a href="/Admin/AgeCategories" >@sharedResource["Age Categories"]</a></li>
+                        <li><a href="/Admin/PaymentMethods" >@sharedResource["Payment Methods"]</a></li>
+                        <li><a href="/Admin/StudyLanguage" >@sharedResource["Study Language"]</a></li>
+                        <li><a href="/Admin/Countries" >@sharedResource["Countries"]</a></li>
+                        <li><a href="/Admin/Cities">@sharedResource["Cities"]</a></li>
+                        <li><a href="/Admin/Areas">@sharedResource["Areas"]</a></li>
+                    </ul>
+                </li>
+                
+                 <li>
+                    <a href="javascript: void(0);" class="waves-effect" aria-expanded="false">
+                        <i class="mdi mdi-view-dashboard"></i>
+                        <span> @sharedResource["Plans Configruration"] </span>
+                    </a>
+                    <ul class="sub-menu mm-collapse" aria-expanded="false">
+                        <li><a href="/Admin/Plans">@sharedResource["Plans"]</a></li>
+                        <li><a href="/Admin/PlanType">@sharedResource["Plan Types"]</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/Admin/NewsletterList" class="waves-effect">
+                        <span class="badge rounded-pill bg-primary float-end"></span>
+                        <i class="mdi mdi-view-dashboard"></i>
+                        <span> @sharedResource["Newsletter"] </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/Admin/Users/NurseryList" class="waves-effect">
+                        <span class="badge rounded-pill bg-primary float-end"></span>
+                        <i class="mdi mdi-view-dashboard"></i>
+                        <span> @sharedResource["Nurseries"] </span>
+                    </a>
+
+                </li>
+
+                <li>
+                    <a href="/Admin/Users/ParentList" class="waves-effect">
+                        <span class="badge rounded-pill bg-primary float-end"></span>
+                        <i class="mdi mdi-view-dashboard"></i>
+                        <span> @sharedResource["Parents"] </span>
+                    </a>
+                </li>
+
+
+                <li>
+                    <a href="javascript: void(0);" class="waves-effect" aria-expanded="false">
+                        <i class="mdi mdi-view-dashboard"></i>
+                        <span> @sharedResource["SystemConfigration"] </span>
+                    </a>
+                    <ul class="sub-menu mm-collapse" aria-expanded="false" style="height: 0px;">
+                        <li><a href="/Admin/SystemConfigration/ContactsInfo">@sharedResource["ContactsInfo"]</a></li>
+                        <li><a href="/Admin/SystemConfigration/FAQList">@sharedResource["FAQList"]</a></li>
+                        <li><a href="/Admin/SystemConfigration/PagesContent">@sharedResource["PagesContent"]</a></li>
+                        <li><a href="/Admin/SystemConfigration/UsersFeedBacks">@sharedResource["Customers Messages"]</a></li>
+                    </ul>
+                </li>
+
+
+
+
+            </ul>
+        </div>
+        <!-- Sidebar -->
+    </div>
+</div>
+<!-- Left Sidebar End -->   

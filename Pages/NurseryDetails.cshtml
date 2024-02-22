@@ -1,0 +1,262 @@
+﻿@page
+@model Nursery.Pages.NurseryDetailsModel
+@{
+    Layout = "~/Pages/Shared/_NewDevExtremeLayout.cshtml";
+}
+
+<div class="page-content pt-4 pb-4" >
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-12">
+                @*<div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title"> @sharedResource["NurseryDetails"]  </h2>*@
+                    
+                        <div style="padding-top:20px;padding-left:20px;padding-right:20px">
+                            <div class="row">
+                                <div class="col-md-12 col-lg-6 mt-4">
+                                    <h4> <span>@sharedResource["Nursery"]</span> <span>@Model.nurseryDetails.NurseryTlAr</span></h4>
+                                    <hr />
+                                   <div class="col-md-12 col-lg-12 mt-4">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">@sharedResource["NameEn"]  </dt>
+                                        <dd class="col-sm-8"> @Model.nurseryDetails.NurseryTlEn</dd>
+                                    </dl>
+                                </div>
+                                    
+                                  <div class="col-md-12 col-lg-12 mt-4">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">@sharedResource["NameAr"] </dt>
+                                        <dd class="col-sm-8"> @Model.nurseryDetails.NurseryTlAr</dd>
+                                    </dl>
+                                </div>
+                                    
+                                   
+                                  <div class="col-md-12 col-lg-12 mt-4">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">@sharedResource["Arabic Description"]  </dt>
+                                        <dd class="col-sm-8"> @Model.nurseryDetails.NurseryDescAr</dd>
+                                    </dl>
+                                </div>
+
+                                 <div class="col-md-12 col-lg-12 mt-4">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">@sharedResource["English Description"]  </dt>
+                                        <dd class="col-sm-8"> @Model.nurseryDetails.NurseryDescEn</dd>
+                                    </dl>
+                                </div>
+                                    
+                                        <div class="col-md-12 col-lg-12 mt-4">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">@sharedResource["WorkTimeFrom"]  </dt>
+                                        <dd class="col-sm-8"> @Model.nurseryDetails.WorkTimeFrom</dd>
+                                    </dl>
+                                </div>
+                                
+                                       <div class="col-md-12 col-lg-12 mt-4">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">@sharedResource["WorkTimeTo"]  </dt>
+                                        <dd class="col-sm-8"> @Model.nurseryDetails.WorkTimeTo</dd>
+                                    </dl>
+                                </div>
+                                    
+                                   <div class="col-md-12 col-lg-12 mt-4">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">@sharedResource["Special Needs"]   </dt>
+                                            @if (@Model.nurseryDetails.SpecialNeeds==true)
+                                            {
+                                                <dd class="col-sm-8">@sharedResource["There is Special Needs"] </dd>
+                                            }
+                                            else
+                                            {
+                                                 <dd class="col-sm-8"> @sharedResource["There is no Special Needs"]</dd>
+                                            }
+                                           
+                                    </dl>
+                                </div>
+                                  
+                                 <div class="col-md-12 col-lg-12 mt-4">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">@sharedResource["Transportation Service"]   </dt>
+                                            @if (@Model.nurseryDetails.TransportationService==true)
+                                            {
+                                                <dd class="col-sm-8">@sharedResource["There is Transportation Service"] </dd>
+                                            }
+                                            else
+                                            {
+                                                 <dd class="col-sm-8"> @sharedResource["There is no Transportation Service"]</dd>
+                                            }
+                                           
+                                    </dl>
+                                </div>
+
+                                </div>
+
+                                <div class="col-md-12 col-lg-6 mt-4">
+                                    <h4> @sharedResource["ContactsInfo"] </h4>
+                                    <hr />
+                                         <div class="col-md-12 col-lg-12 mt-4">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">@sharedResource["Phone"]  </dt>
+                                        <dd class="col-sm-8"> @Model.nurseryDetails.Phone1</dd>
+                                    </dl>
+                                </div>
+                                    
+                                   <div class="col-md-12 col-lg-12 mt-4">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">@sharedResource["Mobile"] </dt>
+                                        <dd class="col-sm-8"> @Model.nurseryDetails.Mobile</dd>
+                                    </dl>
+                                </div>
+                               
+                                 <div class="col-md-12 col-lg-12 mt-4">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">@sharedResource["Fax"] </dt>
+                                        <dd class="col-sm-8">  @Model.nurseryDetails.Fax</dd>
+                                    </dl>
+                                </div>
+                               
+                                   <div class="col-md-12 col-lg-12 mt-4">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">@sharedResource["Email"]</dt>
+                                        <dd class="col-sm-8"> <a href="@Model.nurseryDetails.Email"> @Model.nurseryDetails.Email</a></dd>
+                                    </dl>
+                                </div>
+                                    
+                                 <div class="col-md-12 col-lg-12 mt-4">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">@sharedResource["Facebook"] </dt>
+                                        <dd class="col-sm-8">  <a href="@Model.nurseryDetails.Facebook " style="color:blue">@Model.nurseryDetails.Facebook</a></dd>
+                                    </dl>
+                                </div>
+                                   
+                                  <div class="col-md-12 col-lg-12 mt-4">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">@sharedResource["Instagram"] </dt>
+                                        <dd class="col-sm-8"> <a href="@Model.nurseryDetails.Instagram">@Model.nurseryDetails.Instagram</a></dd>
+                                    </dl>
+                                </div>
+                                   <div class="col-md-12 col-lg-12 mt-4">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">@sharedResource["Twitter"] </dt>
+                                        <dd class="col-sm-8"> <a href="@Model.nurseryDetails.Twitter">@Model.nurseryDetails.Twitter</a></dd>
+                                    </dl>
+                                </div>
+                                  
+                                </div>
+                            </div> 
+                           
+                            <div class="row">
+                                <div class="col-md-12 col-lg-6 mt-4">
+                                    <h4> @sharedResource["Address"] </h4>
+                                    <hr />
+                                      
+                                    <div class="col-md-12 col-lg-12 mt-4">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">@sharedResource["Address"]</dt>
+                                        <dd class="col-sm-8"> @Model.nurseryDetails.Address </dd>
+                                    </dl>
+                                </div>
+                                   
+                                                                    @{
+                                        if (Model.country != null)
+                                        {
+                                                <div class="col-md-12 col-lg-12 mt-4">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">@sharedResource["Country"]</dt>
+                                        <dd class="col-sm-8"> @Model.country.CountryTlEn </dd>
+                                    </dl>
+                                </div>
+                                         
+                                        }
+                                    }
+                                   @{
+                                        if (Model.city != null)
+                                        {
+                                              <div class="col-md-12 col-lg-12 mt-4">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">@sharedResource["City"]</dt>
+                                        <dd class="col-sm-8"> @Model.city.CityTlEn </dd>
+                                    </dl>
+                                </div>
+                                    
+                                         }
+                                    }
+                                     @{
+                                        if (Model.areaDetails!= null)
+                                        {
+                                                      <div class="col-md-12 col-lg-12 mt-4">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">@sharedResource["Area"]</dt>
+                                        <dd class="col-sm-8"> @Model.areaDetails.AreaTlEn </dd>
+                                    </dl>
+                                </div>
+                                   
+                                          }
+                                    }
+                                </div>
+                                <div class="col-md-12 col-lg-6 mt-4">
+                                    <h4> @sharedResource["OtherIfo"] </h4>
+                                    <hr />
+                                    <div class="col-md-12 col-lg-12 mt-4">
+                                    <dl class="row">
+                                        <dt class="col-sm-4">@sharedResource["AvailableSeats"]</dt>
+                                        <dd class="col-sm-8"> @Model.nurseryDetails.AvailableSeats </dd>
+                                    </dl>
+                                </div>
+                                  
+
+                                      
+                                        
+                                
+                                  
+                                    </div>
+                                     
+                                    </div>
+                                  
+                                </div>
+                            @if(@Model.nurseryImages.Count>0)
+                            {
+                       <div class="row">
+                                  <h3> @sharedResource["Nursery Images"] </h3>
+                                 @foreach (var item in @Model.nurseryImages)
+                                 {
+                                   <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <img style="border-radius: 13%;height: 150px;width: 150px;" class="img-fluid" src="/Images/NurseryMember/@item.Pic" />
+                                 </div>
+                                     
+                                 }
+       
+
+                             </div>
+                            }
+             
+
+                            </div>
+                           
+                        </div>
+                  @*  </div>
+                </div>*@
+            </div>
+        </div>
+<style>
+    .product_container {
+        background-color: #4b49ac;
+        padding: 14px;
+        height: 300px;
+    }
+
+    .product_img_container {
+        width: 151px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: auto;
+        padding: 9px;
+    }
+
+    .product_nurseryDetails_details {
+        color: white
+    }
+</style>

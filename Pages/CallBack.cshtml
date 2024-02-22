@@ -1,0 +1,184 @@
+﻿@page
+@model Nursery.Pages.CallBackModel
+@*
+<title> iTech Pay</title>
+<link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,700,900&display=swap" rel="stylesheet">
+<link rel="shortcut icon" href="/assets/Perfume_assets/images/icon/logo.png">
+<script src="https://kit.fontawesome.com/fb2a8bbabd.js" crossorigin="anonymous"></script>*@
+
+
+
+@{
+    ViewData["Title"] = "Pay";
+}
+
+<title> Nursery Pay</title>
+<link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,700,900&display=swap" rel="stylesheet">
+<script src="https://kit.fontawesome.com/fb2a8bbabd.js" crossorigin="anonymous"></script>
+<style>
+    body {
+        text-align: center;
+        padding: 40px 0;
+        background: #EBF0F5;
+    }
+
+
+    h1 {
+        font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+        font-weight: 900;
+        font-size: 40px;
+        margin-bottom: 10px;
+    }
+
+
+    p {
+        color: #404F5E;
+        font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+        font-size: 20px;
+        margin: 0;
+    }
+
+
+
+    .m {
+        font-size: 100px;
+        line-height: 200px;
+        margin-left: -15px;
+    }
+
+    .card {
+        background: white;
+        padding: 60px;
+        border-radius: 4px;
+        box-shadow: 0 2px 3px #C8D0D8;
+        display: inline-block;
+        margin: 0 auto;
+    }
+
+    .pb-3 {
+        padding-top: 12rem;
+    }
+</style>
+
+<div class="card">
+    @{
+
+
+
+            if (Model.PaymentStatus == "CAPTURED")
+            {
+                <div style="border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;">
+                    <i id="" style="color: #9ABC66;" class="checkmark m">✓</i>
+                </div>
+                //<h1 style="color: #88B04B;">@sharedResource["Operation Successed"]</h1>
+                <h1 style="color: #88B04B;">عملية الدفع تمت بنجاح</h1>
+                <p>شكراً لإشتراكك معنا فى تطبيق الحضانة</p>
+                //<p>@sharedResource["Thank you for Your Subscribtion"]</p>
+            }
+            else
+            {
+                <div style="border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;text-align:center">
+                    <i class="fas fa-times m" style="color: red;"></i>
+                </div>
+                //        <h1>@sharedResource["Operation Failed"]</h1>
+                //   <p>
+                //    @sharedResource["Oops! Something went wrong ;"]
+                //    <br />
+                //    @sharedResource["While trying to reserve money from your account!"]
+                //</p>
+                <h1>لقد فشلت عملية الدفع</h1>
+                <p>
+                    هناك خطأ ما حدث
+                    <br />
+                    أثناء محاولة سحب الأموال من حسابك
+                </p>
+            }
+        
+
+    }
+
+</div>
+
+@*style="background-color: #b0c4d9;"*@
+@*<div>
+    <div style=" margin-top:200px; margin-left: 28%;">
+        <div class="card mb-3" style="max-width: 540px;">
+            <div class="row g-0 mt-5 bg-body p-4">
+
+                @{
+                    if (Model.PaymentStatus == "CAPTURED")
+                    {
+                        <div class="col-md-4">
+
+                            <div class="border border-5  border-dark mb-4" style="border-radius:200px; height:200px; width:200px; margin:0 auto;">
+                                <i style="color: #000;" class="fa-9x fst-normal fw-bolder ms-5 text-success">✓</i>
+                            </div>
+                        </div>
+                        <div class="col-md-8 p-4">
+                            <div class="card-body">
+                                <h1 style="color: #000;">@sharedResource["Operation succeeded."]</h1>
+                                <a asp-page="/index" class="btn btn-warning text-dark">@sharedResource["Back to Home Page"]</a>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-4">
+
+                            <div class="border border-5 border-dark mb-4" style="border-radius:200px; height:200px; width:200px; margin:0 auto;text-align:center">
+                                <i class="fas fa-times fa-9x m-4" style="color: red;"></i>
+                            </div>
+             
+                        </div>
+                        <div class="col-md-8 p-4">
+                            <div class="card-body">
+                                <h1 class="text-dark">@sharedResource["Operation Failed."]</h1>
+                                <p class="text-dark">
+                                    <span class="text-dark">@sharedResource["Oops! Something went wrong."]</span>
+                                </p>
+                                <a asp-page="/index" class="btn btn-warning text-dark">@sharedResource["Back to Home Page"]</a>
+
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>*@
+
+
+@*
+    <section class="col-8 m-auto" style="background-color: #6d7080;">
+    <div class="container">
+
+        <div class="">
+                @{
+
+                    if (Model.PaymentStatus == "CAPTURED")
+                    {
+                    <div class="border border-5  border-dark mb-4" style="border-radius:200px; height:200px; width:200px; margin:0 auto;">
+                        <i id="" style="color: #000;" class="fa-9x fst-normal fw-bolder text-success">✓</i>
+                    </div>
+                    <h1 style="color: #000;">@sharedResource["Operation Successed."]</h1>
+
+                    }
+                    else
+                    {
+                    <div class="border border-5 border-dark mb-4" style="border-radius:200px; height:200px; width:200px; margin:0 auto;text-align:center">
+                        <i class="fas fa-times fa-9x m-4" style="color: red;"></i>
+                    </div>
+                    <h1 class="text-dark">@sharedResource["Operation Failed."]</h1>
+                    <p class="text-dark">
+                        <span class="text-dark">@sharedResource["Oops! Something went wrong."]</span>
+                    </p>
+
+                    }
+
+
+                }
+        </div>
+        <a asp-page="/index" class="common-btn two text-dark">@sharedResource["Back to Home Page"]</a>
+    </div>
+</section>
+*@

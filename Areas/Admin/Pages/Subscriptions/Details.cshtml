@@ -1,0 +1,121 @@
+﻿@page
+@model Nursery.Areas.Admin.Pages.Subscriptions.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-header d-flex justify-content-between align-items-center">
+                            @sharedResource["Details"]
+                            <a asp-page="Index" asp-route-id="@Model.Subscriptions.NurseryId" class="btn btn-primary"> @sharedResource["Back"]</a>
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        <div>
+                            <h4>@sharedResource["Details"] </h4>
+                            <hr />
+                           
+                            <dl class="row">
+
+                                <dt class="col-sm-2">
+                                    @sharedResource["Nursery"]
+                                </dt>
+                                <dd class="col-sm-10">
+                                    @Html.DisplayFor(model => model.Subscriptions.Nursery.NurseryTlEn)
+                                </dd>
+                                <dt class="col-sm-2">
+                                    @sharedResource["Plan"]
+                                </dt>
+                                <dd class="col-sm-10">
+                                    @Html.DisplayFor(model => model.Subscriptions.Plan.PlanTlEn)
+                                </dd>
+                                @if(Model.planType != null){
+                                    <dt class="col-sm-2">
+                                     @sharedResource["Plan Type"]  
+                                 </dt>
+                                 <dd class="col-sm-10"> 
+                                     @Model.planType.Title
+                                 </dd> 
+                                }
+                                @if (Model.paymentMethod != null)
+                                {
+                                   <dt class="col-sm-2">
+                                     @sharedResource["Payment Method"]  
+                                 </dt>
+                                 <dd class="col-sm-10"> 
+                                     @Model.paymentMethod.PaymentMethodTlEn
+                                 </dd>
+                                }
+                              
+                                <dt class="col-sm-2">
+                                    @sharedResource["StartDate"]
+                                </dt>
+                                <dd class="col-sm-10">
+                                 @Model.Subscriptions.StartDate.Value.ToShortDateString()
+                                </dd>
+                                <dt class="col-sm-2">
+                                    @sharedResource["EndDate"]
+                                </dt>
+                                <dd class="col-sm-10">
+                                    @Model.Subscriptions.EndDate.Value.ToShortDateString()
+                                </dd>
+                                <dt class="col-sm-2">
+                                    @sharedResource["Price"]
+                                </dt>
+                                <dd class="col-sm-10">
+                                    @Html.DisplayFor(model => model.Subscriptions.Price)
+                                </dd>
+                                 <dt class="col-sm-2">
+                                    @sharedResource["IS Active"]
+                                </dt>
+                                <dd class="col-sm-10">
+                                    @{
+                                        if (!Model.Subscriptions.IsActive && Model.Subscriptions.PaymentMethodId == 3)
+                                        {
+                                            @sharedResource["Nursery Not Active Because Payment Process is Not Successed"]
+                                        }
+                                        else if(!Model.Subscriptions.IsActive && Model.Subscriptions.PaymentMethodId == 2)
+                                        {
+                                            @sharedResource["Nursery Not Active"]
+                                        }
+                                        else
+                                        {
+                                            @sharedResource["Nursery Is Active"]
+                                        }
+                                    }
+                                    @*@Html.DisplayFor(model => model.Subscriptions.IsActive)*@
+                                </dd>
+                            </dl>
+
+                        </div>
+                          @{
+                                if (!Model.Subscriptions.IsActive&&Model.Subscriptions.PaymentMethodId==2 )
+                                {
+                                    <div class="row">
+                                <div class="col-md-12 col-lg-6 mt-4">
+                                    <h4> @sharedResource["Nursery Subscription Pay"] </h4>
+                                    <hr />
+                                    <div class="customer_info_container d-flex justify-content-between">
+                               
+                                <form id="form" method="post" asp-page="Details"  asp-page-handler="Payment" asp-route-id="@Model.Subscriptions.NurserySubscriptionId" enctype="multipart/form-data">      
+                                    <input type="submit" value="@sharedResource["pay"]" class="btn btn-primary">
+                                </form>        
+                                    </div>
+                                   </div>
+                               </div>
+                                }
+                            }
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

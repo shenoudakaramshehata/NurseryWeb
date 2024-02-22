@@ -1,0 +1,127 @@
+﻿@page
+@model Nursery.Areas.Admin.Pages.Subscriptions.AddModel
+@{
+}
+
+
+
+@*<div class="card">
+
+    <div class="card-header">
+        <h3 style="margin-top:9px; color:#4b49ac">@sharedResource["Add Subscription"]   </h3>
+    </div>
+
+    <div style="padding-top:20px;padding-left:20px;padding-right:20px">
+        <form id="form" method="post" enctype="multipart/form-data">
+            <div class="text-danger" asp-validation-summary="All"></div>
+
+            <div class="row form_inside">
+                <div class="col-sm-12 col-lg-6" style="margin-top: 3px;">
+
+
+
+
+                    <div class="dx-field">
+                        <div class="dx-field-label">@sharedResource["Plan"]:</div>
+
+                        <div class="dx-field-value">
+                            @(Html.DevExtreme().SelectBoxFor(s => s.Subscription.PlanId)
+                            .ValueExpr("Value")
+                            .DisplayExpr("Text")
+                            .DataSource(ds => ds.WebApi().Controller("NurserySubscriptions").LoadAction("ActivePlanLookup").Key("Value")
+                            .LoadParams(new { id = new JS(@Model.Id.ToString()) })).RtlEnabled(true)
+                            .DisplayExpr("Text")
+                            .Placeholder(sharedResource["Select Plan"]) 
+                                                            
+                            .ShowClearButton(true)
+                            )
+                        </div>
+                    </div>
+
+                    <div class="dx-field">
+
+                        <div class="dx-field-label">@sharedResource["Active"]:</div>
+                        <div class="dx-field-value">
+                            @(Html.DevExtreme().CheckBoxFor(s => s.Subscription.IsActive)
+
+
+                            )
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            @(Html.DevExtreme().Button()
+            .ID("button")
+            .Text(sharedResource["Save"])
+            .Type(ButtonType.Success)
+            .UseSubmitBehavior(true)
+            )
+        </form>
+    </div>
+</div>*@
+
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-header d-flex justify-content-between align-items-center">
+                          
+                            <a href="/admin/Subscriptions/index?id=@Model.Id" class="btn btn-primary"> @sharedResource["Back"]</a>
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        <br />
+                       <form id="form" method="post" enctype="multipart/form-data">
+            <div class="text-danger" asp-validation-summary="All"></div>
+
+          @(Html.DevExtreme().Form<Nursery.Models.NurserySubscription>()
+        .Items(items =>
+        {
+
+            items.AddSimpleFor(m => m.PlanId).IsRequired(true).Label(k => k.Text(sharedResource["Plan"]))
+                .Editor(e => e
+                    .Lookup()
+                    .DataSource(ds => ds.WebApi().Controller("NurserySubscriptions").LoadAction("ActivePlanLookup").Key("Value"))
+                    .ValueExpr("Value")
+                    .DisplayExpr("Text")
+                     .RtlEnabled(bool.Parse(sharedResource["ArLang"]))
+                        .Placeholder(sharedResource["Select"])
+                                                        .ShowClearButton(true)
+                                                        .ClearButtonText(sharedResource["Clear"])
+                                                        .CancelButtonText(sharedResource["Cancel"])
+                                                        .SearchPlaceholder(sharedResource["searching"])
+                );
+                     items.AddSimpleFor(m => m.PlanTypeId).IsRequired(true).Label(k => k.Text(sharedResource["Plan Type"]))
+                .Editor(e => e
+                    .Lookup()
+                    .DataSource(ds => ds.WebApi().Controller("Plans").LoadAction("PlanTypeLookup").Key("Value"))
+                    .ValueExpr("Value")
+                    .DisplayExpr("Text")
+                     .RtlEnabled(bool.Parse(sharedResource["ArLang"]))
+                        .Placeholder(sharedResource["Select"])
+                                                        .ShowClearButton(true)
+                                                        .ClearButtonText(sharedResource["Clear"])
+                                                        .CancelButtonText(sharedResource["Cancel"])
+                                                        .SearchPlaceholder(sharedResource["searching"])
+                );
+              items.AddSimpleFor(m => m.IsActive).Label(k => k.Text(sharedResource["IsActive"]));
+
+            items.AddButton()
+                        .ColSpan(3)
+                        .HorizontalAlignment(HorizontalAlignment.Right)
+                        .ButtonOptions(b => b.Text(sharedResource["Save"])
+                        .Type(ButtonType.Success)
+                        .UseSubmitBehavior(true)).CssClass("invers");
+        })
+)
+                        </form>
+                   </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

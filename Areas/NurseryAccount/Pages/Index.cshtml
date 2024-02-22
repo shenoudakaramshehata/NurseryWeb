@@ -1,0 +1,191 @@
+﻿@page
+@model Nursery.Areas.NurseryAccount.Pages.IndexModel
+@{
+}
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title"> @sharedResource["OrderDetails"]  </h2>
+                        <div class="col-md-12 invers">
+                            <a asp-page="NurseryList" class="btn btn-primary"> @sharedResource["Back"]</a>
+                            <br />
+                        </div>
+                        <div style="padding-top:20px;padding-left:20px;padding-right:20px">
+                            <div class="row">
+                                <div class="col-md-12 col-lg-6 mt-4">
+                                    <h4> @sharedResource["Nursery"] </h4>
+                                    <hr />
+
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div> @sharedResource["NameEn"] </div>
+                                        <div> @Model.nurseryDetails.NurseryTlAr </div>
+                                    </div>
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div>@sharedResource["NameAr"]  </div>
+                                        <div> @Model.nurseryDetails.NurseryTlEn </div>
+
+                                    </div>
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div>@sharedResource["Description"]  </div>
+                                        <div> @Model.nurseryDetails.NurseryDescAr </div>
+                                    </div>
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div>@sharedResource["Description"]  </div>
+                                        <div> @Model.nurseryDetails.NurseryDescEn </div>
+                                    </div>
+                                    
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div>@sharedResource["WorkTimeFrom"]  </div>
+                                        <div> @Model.nurseryDetails.WorkTimeFrom </div>
+                                    </div>
+                                    
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div>@sharedResource["WorkTimeTo"]  </div>
+                                        <div> @Model.nurseryDetails.WorkTimeTo </div>
+                                    </div>
+                                    
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div>@sharedResource["SpecialNeeds"]  </div>
+                                        <div> @Model.nurseryDetails.SpecialNeeds </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-12 col-lg-6 mt-4">
+                                    <h4> @sharedResource["ContactsInfo"] </h4>
+                                    <hr />
+
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div> @sharedResource["Phone"] </div>
+                                        <div> @Model.nurseryDetails.Phone1 </div>
+                                    </div>
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div> @sharedResource["Mobile"] </div>
+                                        <div> @Model.nurseryDetails.Mobile </div>
+                                    </div>
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div> @sharedResource["Fax"] </div>
+                                        <div> @Model.nurseryDetails.Fax </div>
+                                    </div>
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div>@sharedResource["Email"]  </div>
+                                        <div> @Model.nurseryDetails.Email </div>
+
+                                    </div>
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div>@sharedResource["Facebook"]  </div>
+                                        <div> @Model.nurseryDetails.Facebook </div>
+                                    </div>
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div>@sharedResource["Instagram"]  </div>
+                                        <div> @Model.nurseryDetails.Instagram </div>
+                                    </div>   <div class="customer_info_container d-flex justify-content-between">
+                                        <div>@sharedResource["Twitter"]  </div>
+                                        <div> @Model.nurseryDetails.Twitter </div>
+                                    </div>
+                                </div>
+                            </div> 
+                            <div class="row">
+                                <div class="col-md-12 col-lg-6 mt-4">
+                                    <h4> @sharedResource["Payment_Information"]  </h4>
+                                    <hr />
+                                    @{
+                                        if(@Model.paymentMethod!=null){
+                                            <div class="customer_info_container d-flex justify-content-between">
+                                        <div>@sharedResource["NameAr"]  </div>
+                                        <div> @Model.paymentMethod.PaymentMethodTlAr</div>
+                                    </div>
+                                        }
+                                    }
+                                    
+                                 
+
+                                </div>
+                                 <div class="col-md-12 col-lg-6 mt-4">
+                                    <h4> @sharedResource["AgeCategory"]  </h4>
+                                    <hr />
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div>@sharedResource["NameAr"]  </div>
+                                        <div> @Model.ageCategory.AgeCategoryTlAr</div>
+                                    </div>
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div>@sharedResource["NameEn"]  </div>
+                                        <div> @Model.ageCategory.AgeCategoryTlEn</div>
+                                    </div>
+
+                                </div>
+
+                            </div> 
+                            <div class="row">
+                                <div class="col-md-12 col-lg-6 mt-4">
+                                    <h4> @sharedResource["Address"] </h4>
+                                    <hr />
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div>@sharedResource["Address"]  </div>
+                                        <div> @Model.nurseryDetails.Address </div>
+                                    </div>
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div> @sharedResource["Country"]  </div>
+                                        <div> @Model.areaDetails.City.Country.CountryTlAr </div>
+                                    </div>
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div> @sharedResource["City"]</div>
+                                        <div> @Model.areaDetails.City.CityTlAr </div>
+                                    </div>
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div> @sharedResource["Area"]  </div>
+                                        <div> @Model.areaDetails.AreaTlAr </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-lg-6 mt-4">
+                                    <h4> @sharedResource["OtherIfo"] </h4>
+                                    <hr />
+                                    <div class="customer_info_container d-flex justify-content-between">
+                                        <div>@sharedResource["AvailableSeats"]  </div>
+                                        <div> @Model.nurseryDetails.AvailableSeats </div>
+                                    </div>
+                                    <div class="product_img_container">
+                                        <div>@sharedResource["Banner"]  </div>
+
+                                        <img style="border-radius: 13%;" class="img-fluid" src="~/Images/NurseryMember/@Model.nurseryDetails.Banner" />
+                                    </div>
+                                    <div class="product_img_container">
+                                        <div>@sharedResource["Logo"]  </div>
+
+                                        <img style="border-radius: 13%;" class="img-fluid" src="~/Images/NurseryMember/@Model.nurseryDetails.Logo" />
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .product_container {
+        background-color: #4b49ac;
+        padding: 14px;
+        height: 300px;
+    }
+
+    .product_img_container {
+        width: 151px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: auto;
+        padding: 9px;
+    }
+
+    .product_nurseryDetails_details {
+        color: white
+    }
+</style>

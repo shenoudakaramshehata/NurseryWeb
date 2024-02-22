@@ -1,0 +1,637 @@
+﻿@page
+@model Nursery.Pages.RegistrationNModel
+@inject Nursery.Data.NurseryContext _context
+@Html.AntiForgeryToken()
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+@{
+    ViewData["Title"] = "Home page";
+    var countriesList = _context.Country.ToList();
+}
+
+
+@{
+    Layout = "~/Pages/Shared/_DevExtremeLayout.cshtml";
+}
+
+<style>
+    .inputfile {
+        /* visibility: hidden etc. wont work */
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+        overflow: hidden;
+        position: absolute;
+        z-index: -1;
+    }
+
+        .inputfile:focus + label {
+            /* keyboard navigation */
+            outline: 1px dotted #000;
+            outline: -webkit-focus-ring-color auto 5px;
+        }
+
+        .inputfile + label * {
+            pointer-events: none;
+        }
+
+</style>
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-header d-flex justify-content-between align-items-center">
+                            Add Nursery
+                            <a asp-page="Index" class="btn btn-primary"> Back</a>
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        <br />
+                        <div class="container">
+                            <div class="row">
+                                <form enctype="multipart/form-data" method="post" class="col-12 pt-6" onsubmit="return validateMyForm();">
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+                                    <div class="form-group row">
+                                        <div class="col-lg-6 col-md-6 custom-file">
+                                            <input type="file" name="Logo" accept=".png, .jpg, .jpeg" class="custom-file-input" id="Photo" onchange="changephotoname()" required>
+                                            <label class="custom-file-label" id="photolabel" for="Logo">Choose Logo</label>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 custom-file">
+                                            <input type="file" name="Banner" accept=".png, .jpg, .jpeg" class="custom-file-input form-control input rounded" onchange="changeBannerphotoname()" id="BannerPhoto" required>
+                                            <label class="custom-file-label" for="Banner" id="Bannerphotolabel">Choose Banner</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+
+                                        <div class="col-lg-6 col-md-6">
+
+                                            <label asp-for="registrationModel.NurseryTlEn">Nursery Name In English  </label>
+                                            <input class="form-control input rounded" asp-for="registrationModel.NurseryTlEn" required />
+                                            <div>
+                                                <span asp-validation-for="registrationModel.NurseryTlEn" class="text-danger"></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6">
+
+                                            <label asp-for="registrationModel.NurseryTlAr"> Nursery Name In Arabic </label>
+                                            <input class="form-control input rounded" asp-for="registrationModel.NurseryTlAr" required />
+                                            <span asp-validation-for="registrationModel.NurseryTlAr" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+
+                                        <div class="col-lg-6 col-md-6 ">
+                                            <label asp-for="registrationModel.Address"> Address </label>
+                                            <input class="form-control input rounded" asp-for="registrationModel.Address" required />
+                                            <span asp-validation-for="registrationModel.Address" class="text-danger"></span>
+                                        </div>
+
+
+                                        <div class="col-lg-6 col-md-6">
+                                            <label asp-for="registrationModel.Email"> Email</label>
+                                            <input class="form-control input rounded" asp-for="registrationModel.Email" type="email" required />
+                                            <span asp-validation-for="registrationModel.Email" class="text-danger"></span>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+
+                                        <div class="col-lg-6 col-md-6 ">
+                                            <label asp-for="registrationModel.Password"> Password </label>
+                                            <input class="form-control input rounded" asp-for="registrationModel.Password" type="password" required />
+                                            <span asp-validation-for="registrationModel.Password" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6">
+                                            <label asp-for="registrationModel.ConfirmPassword"> Confirm Password</label>
+                                            <input class="form-control input rounded" asp-for="registrationModel.ConfirmPassword" />
+                                            <span asp-validation-for="registrationModel.ConfirmPassword" class="text-danger"></span>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+
+                                        <div class="col-lg-6 col-md-6">
+
+                                            <label asp-for="registrationModel.Phone1">Phone1  </label>
+                                            <input class="form-control input rounded" asp-for="registrationModel.Phone1" type="number" required />
+                                            <span asp-validation-for="registrationModel.Phone1" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6">
+
+                                            <label asp-for="registrationModel.Phone2"> Phone2 </label>
+                                            <input class="form-control input rounded" asp-for="registrationModel.Phone2" type="number" required />
+                                            <span asp-validation-for="registrationModel.Phone2" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+
+                                        <div class="col-lg-6 col-md-6">
+
+                                            <label asp-for="registrationModel.Mobile">Mobile  </label>
+                                            <input class="form-control input rounded" asp-for="registrationModel.Mobile" type="number" required />
+                                            <span asp-validation-for="registrationModel.Mobile" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6">
+
+                                            <label asp-for="registrationModel.Fax"> Fax </label>
+                                            <input class="form-control input rounded" asp-for="registrationModel.Fax" />
+                                            <span asp-validation-for="registrationModel.Fax" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group row">
+
+                                        <div class="col-lg-6 col-md-6">
+                                            <label asp-for="registrationModel.Lat">Latitude </label>
+                                            <input class="form-control input rounded" asp-for="registrationModel.Lat"  />
+                                            <span asp-validation-for="registrationModel.Lat" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6">
+                                            <label asp-for="registrationModel.Lng">Lngtiude </label>
+                                            <input class="form-control input rounded" asp-for="registrationModel.Lng"  />
+                                            <span asp-validation-for="registrationModel.Lng" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+
+                                        <div class="col-lg-6 col-md-6">
+                                            <label asp-for="registrationModel.Facebook">Facebook </label>
+                                            <input class="form-control input rounded" asp-for="registrationModel.Facebook" type="url" />
+                                            <span asp-validation-for="registrationModel.Facebook" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6">
+                                            <label asp-for="registrationModel.Instagram">Instagram </label>
+                                            <input class="form-control input rounded" asp-for="registrationModel.Instagram" type="url" />
+                                            <span asp-validation-for="registrationModel.Instagram" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-lg-6 col-md-6">
+                                            <label asp-for="registrationModel.Twitter">Twitter </label>
+                                            <input class="form-control input rounded" asp-for="registrationModel.Twitter" type="url" />
+                                            <span asp-validation-for="registrationModel.Twitter" class="text-danger"></span>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6">
+                                            <label asp-for="registrationModel.AvailableSeats">AvailableSeats </label>
+                                            <input class="form-control input rounded" asp-for="registrationModel.AvailableSeats" min="1" required />
+                                            <span asp-validation-for="registrationModel.AvailableSeats" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row" id="WorkTimeFromId">
+                                        <div class="col-lg-6 col-md-6" id="DateBoxFrom">
+                                            <label asp-for="registrationModel.WorkTimeFrom">Work Time From  </label>
+                                            @(Html.DevExtreme().DateBoxFor(e=>e.registrationModel.WorkTimeFrom)
+                .Type(DateBoxType.Time).ID("WorkFromDate")
+            )
+                                            <span id="WorkTimeFromSpan" style="display:none" class="text-danger">Work Time From Is Required</span>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6" id="WorkTimeToId">
+                                            <label asp-for="registrationModel.WorkTimeTo">Work Time To  </label>
+                                            @(Html.DevExtreme().DateBoxFor(e=>e.registrationModel.WorkTimeTo)
+                .Type(DateBoxType.Time).ID("WorkToDate")
+
+            )
+                                            <span id="WorkTimeToSpan" style="display:none" class="text-danger">Work Time To Is Required</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-lg-6 col-md-6" id="AgeLId">
+                                            <label asp-for="registrationModel.AgeCategoryId">Age  </label>
+                                          @(Html.DevExtreme().LookupFor(c=>c.registrationModel.AgeCategoryId)
+  .ID("AgeLookupId")  
+                                          .DataSource(d => d.WebApi()
+      .Controller("NurseryMembers")
+      .LoadAction("AgeCategoryLookup")
+      .Key("Value")
+  )
+  .ValueExpr("Value")
+.DisplayExpr("Text")
+.Placeholder("Select")
+                                            .ShowClearButton(true)
+                                            .ClearButtonText("Clear")
+                                            .CancelButtonText("Cancel")
+                                            .SearchPlaceholder("searching")
+)
+<span id="AgeSpan" style="display:none" class="text-danger">Age Category Is Required</span>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6" id="LanguageLId">
+                                            <label asp-for="registrationModel.Language">Language  </label>
+                                            @(Html.DevExtreme().LookupFor(c=>c.registrationModel.Language)
+                                            .ID("LanguageLookupId")
+  .DataSource(d => d.WebApi()
+      .Controller("Cities")
+      .LoadAction("LanguagesLookup")
+      .Key("Value")
+  )
+  .ValueExpr("Value")
+.DisplayExpr("Text")
+.Placeholder("Select")
+                                            .ShowClearButton(true)
+                                            .ClearButtonText("Clear")
+                                            .CancelButtonText("Cancel")
+                                            .SearchPlaceholder("searching")
+)
+ <span id="LanguageSpan" style="display:none" class="text-danger">Language Is Required</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-lg-6 col-md-6">
+                                            <label asp-for="registrationModel.SpecialNeeds">Special Needs  </label>
+                                            @(Html.DevExtreme().CheckBoxFor(e=>e.registrationModel.SpecialNeeds).Value(false)
+)
+                                            <span asp-validation-for="registrationModel.SpecialNeeds" class="text-danger"></span>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6">
+                                            <label asp-for="registrationModel.TransportationService">Transportation Service </label>
+                                            @(Html.DevExtreme().CheckBoxFor(e=>e.registrationModel.TransportationService).Value(false)
+
+)                <div>
+                                                <span asp-validation-for="registrationModel.TransportationService" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-lg-6 col-md-6" id="CountryLId">
+                                            <label asp-for="registrationModel.CountryId">Country  </label>
+                                            @(Html.DevExtreme().LookupFor(c=>c.registrationModel.CountryId)
+        .ID("CountryLookupId")
+  .DataSource(d => d.WebApi()
+
+      .Controller("Cities")
+      .LoadAction("CountryLookup")
+      .Key("Value")
+  )
+
+  .ValueExpr("Value")
+.DisplayExpr("Text")
+.OnSelectionChanged("GetCities")
+.Placeholder("Select")
+                                            .ShowClearButton(true)
+                                            .ClearButtonText("Clear")
+                                            .CancelButtonText("Cancel")
+                                            .SearchPlaceholder("searching")
+)
+                                            <span id="CountrySpan" style="display:none" class="text-danger">Country Is Required</span>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6" id="CityLId">
+                                            <label asp-for="registrationModel.CityId">City  </label>
+                                            @(Html.DevExtreme().LookupFor(c=>c.registrationModel.CityId)
+        .ID("CitiesLookupId")
+  .DataSource(d => d.WebApi()
+      .Controller("Areas")
+      .LoadAction("CityLookup")
+      .Key("Value")
+  )
+  .ValueExpr("Value")
+.DisplayExpr("Text")
+.OnSelectionChanged("GetArea")
+.Placeholder("Select")
+                                            .ShowClearButton(true)
+                                            .ClearButtonText("Clear")
+                                            .CancelButtonText("Cancel")
+                                            .SearchPlaceholder("searching")
+)
+                                            <span id="CitySpan" style="display:none" class="text-danger">City Is Required</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <div class="col-lg-6 col-md-6" id="AreaLId">
+                                            <label asp-for="registrationModel.AreaId">Area  </label>
+                                            @(Html.DevExtreme().LookupFor(c=>c.registrationModel.AreaId)
+        .ID("AreaLookupId")
+  .DataSource(d => d.WebApi()
+
+      .Controller("Cities")
+      .LoadAction("AreasLookup")
+      .Key("Value")
+  )
+
+  .ValueExpr("Value")
+.DisplayExpr("Text")
+.Placeholder("Select")
+                                            .ShowClearButton(true)
+                                            .ClearButtonText("Clear")
+                                            .CancelButtonText("Cancel")
+                                            .SearchPlaceholder("searching")
+)
+<span id="AreaSpan" style="display:none" class="text-danger">Area Is Required</span>
+                                      
+</div>
+                                        <div class="col-lg-6 col-md-6" id="PlanLId">
+                                            <label asp-for="registrationModel.PlanId">Plan  </label>
+                                            @(Html.DevExtreme().LookupFor(c=>c.registrationModel.PlanId)
+        .ID("PlanLookupId")
+  .DataSource(d => d.WebApi()
+
+      .Controller("NurserySubscriptions")
+      .LoadAction("PlanLookup")
+      .Key("Value")
+  )
+  .ValueExpr("Value")
+.DisplayExpr("Text")
+.Placeholder("Select")
+                                            .ShowClearButton(true)
+                                            .ClearButtonText("Clear")
+                                            .CancelButtonText("Cancel")
+                                            .SearchPlaceholder("searching")
+)
+<span id="PlanSpan" style="display:none" class="text-danger">Plan Is Required</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <div class="col-lg-6 col-md-6" id="PaymentLId">
+                                            <label asp-for="registrationModel.PaymentMethodId">Payment Method </label>
+                                            @(Html.DevExtreme().LookupFor(c=>c.registrationModel.PaymentMethodId)
+ .ID("PaymentLookupId")
+                                            .DataSource(d => d.WebApi()
+
+      .Controller("Cities")
+      .LoadAction("PaymentMethodsLookup")
+      .Key("Value")
+  )
+
+  .ValueExpr("Value")
+.DisplayExpr("Text")
+.Placeholder("Select")
+                                            .ShowClearButton(true)
+                                            .ClearButtonText("Clear")
+                                            .CancelButtonText("Cancel")
+                                            .SearchPlaceholder("searching")
+)
+<span id="PaymentSpan" style="display:none" class="text-danger">Payment Method Is Required</span>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group row">
+
+                                        <div class="col-lg-6 col-md-6">
+                                            <label asp-for="registrationModel.NurseryDescEn">Nursery Description En </label>
+                                            @(Html.DevExtreme().TextAreaFor(e=>e.registrationModel.NurseryDescEn).Height(90)
+            )
+                                            <span asp-validation-for="registrationModel.NurseryDescEn" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6">
+                                            <label asp-for="registrationModel.NurseryDescAr">Nursery Description Ar </label>
+                                            @(Html.DevExtreme().TextAreaFor(e=>e.registrationModel.NurseryDescAr).Height(90)
+            )
+                                            <span asp-validation-for="registrationModel.NurseryDescAr" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group row">
+                                        <div class="col-lg-6 col-md-6 custom-file">
+                                            <input type="file" name="ImageFielsList" multiple="multiple" accept=".png, .jpg, .jpeg" class="custom-file-input form-control input rounded" onchange="changeImageFielsListphotoname()" id="ImageFielsListPhoto">
+                                            <label class="custom-file-label" for="ImageFielsList" id="ImageFielsListphotolabel">Choose Photos</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 text-center">
+                                        <button type="submit" class="btn submit-btn btn-primary mt-3">Register  </button>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@await Component.InvokeAsync("NToastNotify")
+
+
+
+
+
+
+
+@*</body>
+
+    </html>*@
+<script>
+
+    function GetCities() {
+
+        var CountryLock = $("#CountryLookupId").dxLookup("instance");
+        var SelectedCountry = CountryLock.option("selectedItem");
+        console.log(SelectedCountry)
+        if (SelectedCountry != null) {
+            $.ajax({
+
+                type: "GET",
+                url: "/RegistrationN?handler=FillCityList",
+                data: { "values": SelectedCountry.Value },
+                contentType: "application/json",
+                dataType: "json",
+                success: function (response) {
+                    console.log("List Cities" + response)
+                    var CityLock = $("#CitiesLookupId").dxLookup("instance");
+                    console.log(CityLock)
+                    CityLock.option("dataSource", response)
+
+                },
+                failure: function (response) {
+                    alert(response);
+                }
+            });
+            $.ajax({
+
+                type: "GET",
+                url: "/RegistrationN?handler=FillPlanList",
+                data: { "values": SelectedCountry.Value },
+                contentType: "application/json",
+                dataType: "json",
+                success: function (response) {
+                    console.log("List Cities" + response)
+                    var PlanLock = $("#PlanLookupId").dxLookup("instance");
+                    console.log(PlanLock)
+                    PlanLock.option("dataSource", response)
+                    PlanLock.refresh()
+
+                },
+                failure: function (response) {
+                    alert(response);
+                }
+            });
+
+
+        }
+
+    }
+
+
+    function GetArea() {
+        var CityLock = $("#CitiesLookupId").dxLookup("instance");
+        var SelectedCity = CityLock.option("selectedItem");
+        console.log(SelectedCity)
+        if (SelectedCity != null) {
+            $.ajax({
+
+                type: "GET",
+                url: "/RegistrationN?handler=FillAreaList",
+                data: { "values": SelectedCity.Value },
+                contentType: "application/json",
+                dataType: "json",
+                success: function (response) {
+                    console.log("List Cities" + response)
+                    var AreaLock = $("#AreaLookupId").dxLookup("instance");
+                    console.log(CityLock)
+                    AreaLock.option("dataSource", response)
+                    AreaLock.refresh()
+
+                },
+                failure: function (response) {
+                    alert(response);
+                }
+            });
+
+        }
+    }
+
+    function changephotoname() {
+        console.log("in photo")
+        var fileName = document.getElementById("Photo").value.split("\\").pop();
+        document.getElementById("photolabel").innerHTML = fileName;
+
+    }
+    function changeBannerphotoname() {
+        console.log("in photo")
+        var BannerfileName = document.getElementById("BannerPhoto").value.split("\\").pop();
+        document.getElementById("Bannerphotolabel").innerHTML = BannerfileName;
+    }
+    function changeImageFielsListphotoname() {
+        console.log("in photo")
+        var ConcatFilesName = "";
+
+        var ImageFielsListfileName = document.getElementById("ImageFielsListPhoto").value.split("\\").pop();
+        document.getElementById("ImageFielsListphotolabel").innerHTML = ImageFielsListfileName;
+    }
+    function validateMyForm() {
+         var WorkDateBoxFrom = $("#WorkFromDate").dxDateBox("instance");  
+        var WorkDateBoxFromValue = WorkDateBoxFrom.option('value');
+        var WorkDateBoxTo = $("#WorkToDate").dxDateBox("instance");  
+        var WorkDateBoxToValue = WorkDateBoxTo.option('value');
+       
+        var CountryLocks = $("#CountryLookupId").dxLookup("instance");
+        var SelectedCountryId = CountryLocks.option("selectedItem");
+        console.log(SelectedCountryId)
+        var CityLocks = $("#CitiesLookupId").dxLookup("instance");
+        var SelectedCityId = CityLocks.option("selectedItem");
+        var AreaLocks = $("#AreaLookupId").dxLookup("instance");
+        var SelectedAreaId = AreaLocks.option("selectedItem");
+        var PlanLocks = $("#PlanLookupId").dxLookup("instance");
+        var SelectedPlanId = PlanLocks.option("selectedItem");
+        var PaymentLocks = $("#PaymentLookupId").dxLookup("instance");
+         var SelectedPaymentId = PaymentLocks.option("selectedItem");
+        var AgeLocks = $("#AgeLookupId").dxLookup("instance");
+         var SelectedAgeId = AgeLocks.option("selectedItem");
+        var LanguageLocks = $("#LanguageLookupId").dxLookup("instance");
+        var SelectedLanguageId = LanguageLocks.option("selectedItem");
+        console.log(SelectedCityId);
+        var CountrySpan = document.getElementById("CountrySpan")
+        var CitySpan = document.getElementById("CitySpan")
+        var AreaSpan = document.getElementById("AreaSpan")
+        var PlanSpan = document.getElementById("PlanSpan")
+        var PaymentSpan = document.getElementById("PaymentSpan")
+        var AgeSpan = document.getElementById("AgeSpan")
+        var LanguageSpan = document.getElementById("LanguageSpan")
+        var WorkTimeToSpan = document.getElementById("WorkTimeToSpan")
+        var WorkTimeFromSpan = document.getElementById("WorkTimeFromSpan")
+        if(WorkDateBoxFromValue!=null||WorkDateBoxToValue!=null||SelectedCountryId!=null||SelectedCityId!=null||SelectedAreaId!=null||SelectedPlanId!=null||SelectedPaymentId!=null||SelectedAgeId!=null||SelectedLanguageId!=null)
+        {
+            CountrySpan.style.display = "none";
+            CitySpan.style.display = "none";
+            AreaSpan.style.display = "none";
+            PlanSpan.style.display = "none";
+            PaymentSpan.style.display = "none";
+            AgeSpan.style.display = "none";
+            LanguageSpan.style.display = "none";
+            WorkTimeFromSpan.style.display = "none";
+            WorkTimeToSpan.style.display = "none";
+        }
+        if (WorkDateBoxFromValue == null)
+        {
+            WorkTimeFromSpan.style.display = "flex";
+            window.location.href = "#WorkTimeFromId";
+            return false;
+        }
+        else if (WorkDateBoxToValue == null)
+        {
+            WorkTimeToSpan.style.display = "flex";
+            window.location.href = "#WorkTimeToId";
+            return false;
+        }
+         else if (SelectedAgeId == null) {
+            AgeSpan.style.display = "flex";
+            PaymentSpan.style.display = "none";
+            window.location.href = "#AgeLId";
+            return false;
+        }
+          else if (SelectedLanguageId == null) {
+            LanguageSpan.style.display = "flex";
+            AgeSpan.style.display = "none";
+            window.location.href = "#LanguageLId";
+            return false;
+        }
+        else if (SelectedCountryId == null)
+        {
+            CountrySpan.style.display = "flex";
+            window.location.href = "#CountryLId";
+            return false;
+        }
+       
+        else if (SelectedCityId == null) {
+            CitySpan.style.display = "flex";
+            CountrySpan.style.display = "none";
+            window.location.href = "#CityLId";
+            return false;
+        }
+        else if (SelectedAreaId == null) {
+            AreaSpan.style.display = "flex";
+            CitySpan.style.display = "none";
+            window.location.href = "#AreaLId";
+            return false;
+        }
+        else if (SelectedPlanId == null) {
+            PlanSpan.style.display = "flex";
+            AreaSpan.style.display = "none";
+            window.location.href = "#PlanLId";
+            return false;
+        }
+         else if (SelectedPaymentId == null) {
+            PaymentSpan.style.display = "flex";
+            PlanSpan.style.display = "none";
+            window.location.href = "#PaymentLId";
+            return false;
+        }
+         
+  
+        else {
+            
+            return true;
+        }
+
+    }
+</script>

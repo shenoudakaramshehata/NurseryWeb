@@ -1,0 +1,87 @@
+﻿{
+   "CodeGenerationMode": 0,
+   "ContextClassName": "SamplecoreangularContext",
+   "ContextNamespace": "NurseryContext",
+   "DefaultDacpacSchema": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": false,
+   "ModelNamespace": null,
+   "OutputContextPath": "Data",
+   "OutputPath": "Models",
+   "ProjectRootNamespace": "Nursery",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 0,
+   "Tables": [
+      {
+         "Name": "[dbo].[Adz]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[AgeCategory]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Area]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Banner]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[City]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ContactUs]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Country]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[EntityType]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[NurseryImage]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[NurseryMember]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[NurserySubscription]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Plan]",
+         "ObjectType": 0
+      },
+     
+      {
+         "Name": "[dbo].[SystemConfiguration]",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": "DESKTOP-L3A2JV0.SampleCoreAngular",
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDbContextSplitting": false,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseInflector": false,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoConstructor": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UseSchemaFolders": false,
+   "UseSpatial": false
+}

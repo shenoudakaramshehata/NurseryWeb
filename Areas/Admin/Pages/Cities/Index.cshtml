@@ -1,0 +1,81 @@
+﻿@page
+@model Nursery.Areas.Admin.Pages.Cities.IndexModel
+@{
+}
+
+
+
+    <div class="page-content">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-header d-flex justify-content-between align-items-center">
+                                @sharedResource["Cities"]
+                                <a asp-page="Add" class="btn btn-primary">@sharedResource["Add"]  @sharedResource["City"]  </a>
+                            </h2>
+                        </div>
+                        <div class="card-body">
+
+
+
+
+                        @(Html.DevExtreme().DataGrid<Nursery.Models.City>()
+                        .ID("gridContainer")
+
+                        .DataSource(Model.cityList)
+                        .Columns(columns => {
+
+
+                        columns.AddFor(m => m.CityTlAr).Caption(sharedResource["TlAr"]);
+                        columns.AddFor(m => m.CityTlEn).Caption(sharedResource["TlEn"]);
+                        columns.AddFor(m => m.CountryId).Lookup(lookup => lookup
+.DataSource(ds => ds.WebApi().Controller("Cities").LoadAction("CountryLookup").Key("Value"))
+.ValueExpr("Value")
+.DisplayExpr("Text")
+).Caption(sharedResource["Country"]);
+                        columns.AddFor(m => m.CityOrderIndex).Caption(sharedResource["Sort"]);
+                        columns.AddFor(m => m.CityIsActive).Caption(sharedResource["IsActive"]);
+                        columns.Add().Caption(sharedResource["Actions"]).Width(200).Alignment(HorizontalAlignment.Center).CellTemplate(@<text>
+
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                        <a class="btn btn-primary btn-sm"  href="/Admin/Cities/Details?id=<%- data.CityId %>"> <i class="fas fa-eye"></i> </a>
+                                <a class="btn btn-success btn-sm"  href="/Admin/Cities/Edit?id=<%- data.CityId %>">  <i class="fas fa-edit"></i> </a>
+                                <a class="btn btn-danger btn-sm" href="/Admin/Cities/Delete?id=<%- data.CityId %>">  <i class="fas fa-trash"></i> </a>
+                            </div>
+                            </text>);
+
+                        })
+                       .Paging(paging => paging.PageSize(10))
+                        .Pager(pager =>
+                        {
+                            pager.Visible(true);
+                            pager.DisplayMode(GridPagerDisplayMode.Full);
+                            pager.ShowPageSizeSelector(true);
+                            pager.AllowedPageSizes(new JS("[5, 10, 'all']"));
+                            pager.ShowInfo(true);
+                            pager.ShowNavigationButtons(true);
+
+                        })
+                            .HeaderFilter(headerFilter => headerFilter.Visible(true))
+                            .ShowRowLines(true).ShowColumnLines(true)
+                            .RowAlternationEnabled(true)
+                            .AllowColumnReordering(true)
+                            
+                            .ShowBorders(true)
+                            .SearchPanel(searchPanel => searchPanel
+                            .Visible(true)
+                            .Width(240)
+                            .Placeholder(sharedResource["SearchTxt"]))
+                            .RemoteOperations(true)
+                            .RtlEnabled(bool.Parse(sharedResource["ArLang"]))
+                                        )
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

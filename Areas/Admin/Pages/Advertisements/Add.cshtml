@@ -1,0 +1,206 @@
+﻿@page
+@model Nursery.Areas.Admin.Pages.Advertisements.AddModel
+@{
+}
+
+
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-header d-flex justify-content-between align-items-center">
+                            @sharedResource["Add"]  @sharedResource["Adz"]
+                            <a asp-page="Index" class="btn btn-primary"> @sharedResource["Back"]</a>
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                      
+                        <form id="form" method="post" enctype="multipart/form-data">
+                            @Html.Hidden("NurseryId", "")
+                            @(Html.DevExtreme().Form<Nursery.Models.Adz>()
+
+    .ID("AdzForm")
+     .OnInitialized("onFormInitialized")
+
+.Items(items => {
+
+    items.AddSimpleFor(m=>m.CountryId).IsRequired(true).Label(k => k.Text(sharedResource["Country"]))
+                .Editor(e => e
+                    .Lookup()
+                    .ID("contrylookup")
+                    .DataSource(ds => ds.WebApi().Controller("Adzs").LoadAction("CountryLookup").Key("Value"))
+                    .ValueExpr("Value")
+                    .DisplayExpr("Text")
+                    .OnSelectionChanged("countryselect")
+                     .RtlEnabled(bool.Parse(sharedResource["ArLang"]))
+                     .Placeholder(sharedResource["Select"])
+                                                        .ShowClearButton(true)
+                                                        .ClearButtonText(sharedResource["Clear"])
+                                                        .CancelButtonText(sharedResource["Cancel"])
+                                                        .SearchPlaceholder(sharedResource["searching"])
+                );
+    items.AddSimpleFor(m => m.EntityTypeId).IsRequired(true).Label(k => k.Text(sharedResource["Type"]))
+            .Editor(e => e
+                .Lookup()
+                .DataSource(ds => ds.WebApi().Controller("Adzs").LoadAction("EntityTypeLookup").Key("Value"))
+                .ValueExpr("Value")
+                .DisplayExpr("Text")
+                 .OnValueChanged("onValueChanged")
+                  .RtlEnabled(bool.Parse(sharedResource["ArLang"]))
+                  .Placeholder(sharedResource["Select"])
+                                                        .ShowClearButton(true)
+                                                        .ClearButtonText(sharedResource["Clear"])
+                                                        .CancelButtonText(sharedResource["Cancel"])
+                                                        .SearchPlaceholder(sharedResource["searching"])
+                 );
+
+    items.AddSimple().IsRequired(true)
+            .Editor(e => e
+                .Lookup()
+                .ID("Nurseryllokup")
+                 .DataSource(ds => ds.WebApi().Controller("Adzs").LoadAction("NurseryLookup").Key("Value"))
+          .DisplayExpr("Text")
+            .ValueExpr("Value")
+      .OnSelectionChanged("NurseryValueChanged")
+      .OnOpened("Nurseryopen")
+       .RtlEnabled(bool.Parse(sharedResource["ArLang"]))
+          .Placeholder(sharedResource["Select"])
+                                                        .ShowClearButton(true)
+                                                        .ClearButtonText(sharedResource["Clear"])
+                                                        .CancelButtonText(sharedResource["Cancel"])
+                                                        .SearchPlaceholder(sharedResource["searching"])
+
+                 ).Label(k => k.Text(sharedResource["Nursery"])).Name("Nursery").Visible(false).IsRequired(true);
+    items.AddSimpleFor(m => m.EntityId).Visible(false).Name("URL").Label(k => k.Text(sharedResource["ExternalURL"])).IsRequired(true);
+
+    items.AddSimpleFor(m => m.AdzOrderIndex).Label(k => k.Text(sharedResource["Sort"])).IsRequired(true).Editor(e=>e.NumberBox().Value(null).Min(0));
+    items.AddSimpleFor(m => m.AdzIsActive).Label(k => k.Text(sharedResource["IsActive"]));
+
+    items.AddSimpleFor(m => m.AdzPic).IsRequired(true).Label(k => k.Text(sharedResource["Picture"])).Template(@<text>
+                            @(Html.DevExtreme().FileUploader()
+                                        .Name("Photo")
+                                        .SelectButtonText(sharedResource["Select_photo"])
+                                        .LabelText("")
+                                        .Accept("image/*")
+                                        .UploadMode(FileUploadMode.UseForm)
+                                        .RtlEnabled(bool.Parse(sharedResource["ArLang"]))
+                                        .Height(70)
+                               )
+
+                            </text> ).IsRequired(true);
+    items.AddButton()
+  .ColSpan(3)
+  .HorizontalAlignment(HorizontalAlignment.Right)
+  .ButtonOptions(b => b.Text(sharedResource["Save"])
+  .Type(ButtonType.Success)
+  .UseSubmitBehavior(true)).CssClass("invers");
+
+
+
+})
+                            )
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var form
+    var countryid
+    function onFormInitialized(e) {
+        form = e.component;
+    }
+
+  
+
+    function NurseryValueChanged(data) {
+        if(data.selectedItem !=null){
+        $("#NurseryId").val(data.selectedItem.Value);
+        }
+    }
+    function countryselect(data)
+    {
+        countryid=data.selectedItem.Value
+         var CountryLock = $("#contrylookup").dxLookup("instance");
+        var Selectedcountry =CountryLock.option("selectedItem");
+        console.log(Selectedcountry)
+        if (Selectedcountry != null) {
+           $.ajax({
+
+                type: "GET",
+                url: "Add?handler=FillNurseryList",
+                data: { "values": Selectedcountry.Value },
+                contentType: "application/json",
+                dataType: "json",
+                success: function (response) {
+                    console.log("List Nurseries" + response)
+                    var NurseryLock = $("#Nurseryllokup").dxLookup("instance");
+                    console.log(NurseryLock)
+                    NurseryLock.option("dataSource", response)
+                  
+
+                },
+                failure: function (response) {
+                    alert(response);
+                }
+            });
+
+        }
+    }
+
+    function Nurseryopen(){
+         var CountryLock = $("#contrylookup").dxLookup("instance");
+        var SelectedCountry = CountryLock.option("selectedItem");
+        console.log(SelectedCountry)
+        if (SelectedCountry == null) {
+            alert("You must select country first")
+        }
+       
+    }
+    function onValueChanged(e) {
+
+        if (e.value === 1) {
+            form.itemOption("Nursery", "visible", true);
+            form.itemOption("URL", "visible", false);
+            if(countryid!=null)
+            {
+                 $.ajax({
+
+                type: "GET",
+                url: "Add?handler=FillNurseryList",
+                data: { "values": countryid },
+                contentType: "application/json",
+                dataType: "json",
+                success: function (response) {
+                    console.log("List Nurseries" + response)
+                    var NurseryLock = $("#Nurseryllokup").dxLookup("instance");
+                    console.log(NurseryLock)
+                    NurseryLock.option("dataSource", response)
+                 
+
+                },
+                failure: function (response) {
+                    alert(response);
+                }
+            });
+
+            }
+            else{
+                alert("You must select country first")
+            }
+        }
+
+        if (e.value === 2) {
+            form.itemOption("URL", "visible", true);
+            form.itemOption("Nursery", "visible", false)
+        }
+
+    }
+
+
+</script>

@@ -1,0 +1,139 @@
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject Nursery.Data.NurseryContext _context
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Localization
+@{
+    var configuration = _context.Configuration.FirstOrDefault();
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>@ViewData["Nursery Details"]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="images/NurseryLogo.jpg">
+   <link rel="icon" type="image/png" sizes="32x32" href="images/NurseryLogo.jpg">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/NurseryLogo.jpg">
+    <link rel="manifest" href="Public/images/favicon/site.html">
+
+
+
+
+    <link href="~/css/devextreme/bootstrap.css" rel="stylesheet" />
+
+    <link href="~/css/devextreme/dx.common.css" rel="stylesheet" />
+
+    <link href="~/css/devextreme/dx.light.css" rel="stylesheet" />
+
+
+    <script src="~/js/devextreme/jquery.js"></script>
+    <script src="~/js/devextreme/bootstrap.js"></script>
+
+
+    <script src="~/js/devextreme/dx.all.js"></script>
+
+
+    <script src="~/js/devextreme/aspnet/dx.aspnet.mvc.js"></script>
+    <script src="~/js/devextreme/aspnet/dx.aspnet.data.js"></script>
+    @{
+
+        var locale = Context.Request.HttpContext.Features.Get<IRequestCultureFeature>();
+        var BrowserCulture = locale.RequestCulture.UICulture.ToString();
+        //English
+        if (BrowserCulture == "en-US")
+        {
+            <style>
+                html {
+                    direction: ltr !important;
+                }
+
+                .invers {
+                    direction: rtl !important;
+                    text-align: right !important;
+                }
+
+                .legenedC {
+                    float: left;
+                }
+
+                .Labels {
+                    float: left;
+                }
+            </style>
+
+
+
+
+
+
+
+        }
+        //Arabic
+        else
+        {
+
+            <style>
+                html {
+                    direction: rtl !important;
+                }
+
+                .invers {
+                    direction: ltr !important;
+                    text-align: left !important;
+                }
+
+                #NurseryReg {
+                    padding-right: 35px;
+                }
+
+                .legenedC {
+                    float: right;
+                }
+
+                .Labels {
+                    float: right;
+                }
+
+                body {
+                    text-align: right;
+                }
+
+                .custom-file-label {
+                    padding-right: 70px;
+                }
+            </style>
+
+
+
+
+        }
+
+    }
+
+</head>
+
+<body>
+    
+    <main role="main" class="container">
+        @RenderBody()
+    </main>
+   
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/Public/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Public/js/swiper-bundle.min.js"></script>
+    <script src="~/Public/js/glightbox.min.js"></script>
+    <script src="~/Public/js/overlay-scrollbars.min.js"></script>
+    <script src="~/Public/js/gsap.min.js"></script>
+    <script src="~/Public/js/main.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

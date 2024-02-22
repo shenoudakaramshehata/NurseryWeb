@@ -1,0 +1,860 @@
+﻿
+@page
+@model Nursery.Pages.NurseryRegisterModel
+@inject Nursery.Data.NurseryContext _context
+@Html.AntiForgeryToken()
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
+@{
+    ViewData["Title"] = "Registration";
+    var countriesList = _context.Country.ToList();
+}
+
+
+@{
+    Layout = "~/Pages/Shared/_DevExtremeLayout.cshtml";
+}
+    <script>
+        const process = { env: {} };
+        process.env.GOOGLE_MAPS_API_KEY =
+          "AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg";
+    </script>
+<style>
+        #map {
+            height: 100%;
+        }
+    .inputfile {
+        /* visibility: hidden etc. wont work */
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+        overflow: hidden;
+        position: absolute;
+        z-index: -1;
+    }
+
+        .inputfile:focus + label {
+            /* keyboard navigation */
+            outline: 1px dotted #000;
+            outline: -webkit-focus-ring-color auto 5px;
+        }
+
+        .inputfile + label * {
+            pointer-events: none;
+        }
+        label {
+            font-size: 13px;
+        }
+        .formInput{
+            height:36px;
+        }
+        span{
+            font-size: 13px;
+        }
+         a{
+            line-height:unset;
+            text-decoration:none;
+            
+        }
+input[type="text"]
+{
+    font-size:15px;
+}
+input[type="number"]
+{
+    font-size:15px;
+}
+input[type="password"]
+{
+    font-size:15px;
+}
+input[type="email"]
+{
+    font-size:15px;
+}
+input[type="file"]
+{
+    font-size:15px;
+}
+input[type="url"]
+{
+    font-size:15px;
+}
+
+ .custom-file-label{
+    /*width: 43rem;*/
+    margin: auto;
+}
+.link-underline>span {
+    font-size: 1.5rem;
+ }
+ .footer-list h6 {
+     font-size: 1.6rem;
+ }
+ .contact-form-section-wrapper{
+     padding-top:15rem; !important
+ }
+
+</style>
+
+   
+  <div class="contact-form-section" id="contactUs">
+    <div class="contact-form-section-wrapper">
+        <div class="container">
+            <div class="row gx-5 contact-form-section-row">
+                <div class="col-lg-12 offset-lg-0 col-md-8 offset-md-2 col-10 offset-1">
+                    <!--
+                    contact form - start
+                    -->
+                    <div class="contact-form drop-shadow-2">
+                        <div class="contact-form-wrapper">
+                            <div class="section-heading section-heading-2 center">
+                               
+                                <div class="main-heading c-dark">
+                                    <h1>@sharedResource["Register Nursery"]</h1>
+                                </div>
+                            </div>
+           
+                            
+                                <form enctype="multipart/form-data" method="post" class="col-12 pt-6" onsubmit="return validateMyForm();">
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                             @Html.Hidden("ItemIds", "")
+                                 
+                                <fieldset class="form-group border p-5" >
+                                    <legend ><b class="text-primary legenedC">@sharedResource["Nursery Info"]</b></legend>
+                                    <div class="form-group row">
+
+                                        <div class="col-lg-6 col-md-6">
+
+                                            <label class="Labels" asp-for="registrationModel.NurseryTlEn">@sharedResource["Nursery Name In English"]  </label>
+                                            <input class="form-control input rounded formInput" asp-for="registrationModel.NurseryTlEn" required />
+                                            <div>
+                                                <span asp-validation-for="registrationModel.NurseryTlEn" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-lg-6 col-md-6">
+
+                                            <label class="Labels" asp-for="registrationModel.NurseryTlAr">@sharedResource["Nursery Name In Arabic"] </label>
+                                            <input class="form-control input rounded formInput" asp-for="registrationModel.NurseryTlAr" required />
+                                            <span asp-validation-for="registrationModel.NurseryTlAr" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                       <div class="form-group row">
+                                           <div class="col-lg-6 col-md-6">
+                                            <label class="Labels" asp-for="registrationModel.Email"> @sharedResource["Email"]</label>
+                                            <input class="form-control input rounded formInput" asp-for="registrationModel.Email" type="email" required />
+                                            <span asp-validation-for="registrationModel.Email" class="text-danger"></span>
+
+                                        </div>
+                                              <div class="col-lg-6 col-md-6 ">
+                                            <label class="Labels" asp-for="registrationModel.Address"> @sharedResource["Address"] </label>
+                                            <input class="form-control input rounded formInput" asp-for="registrationModel.Address" required />
+                                            <span asp-validation-for="registrationModel.Address" class="text-danger"></span>
+                                        </div>
+                                       
+
+                                        
+                                    </div>
+                                    <div class="form-group row">
+                                         <div class="col-lg-6 col-md-6 ">
+                                            <label class="Labels" asp-for="registrationModel.Password"> @sharedResource["Password"] </label>
+                                            <input class="form-control input rounded formInput" asp-for="registrationModel.Password" type="password" required />
+                                            <span asp-validation-for="registrationModel.Password" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6">
+                                            <label class="Labels" asp-for="registrationModel.ConfirmPassword"> @sharedResource["Confirm Password"]</label>
+                                            <input class="form-control input rounded formInput" asp-for="registrationModel.ConfirmPassword" />
+                                            <span asp-validation-for="registrationModel.ConfirmPassword" class="text-danger"></span>
+
+                                        </div>
+                                  
+
+
+                                        
+                                    </div>
+                                    
+                                    <div class="form-group row">
+
+                                        <div class="col-lg-6 col-md-6">
+                                            <label  class="Labels" asp-for="registrationModel.NurseryDescEn">@sharedResource["Nursery Description In English"] </label>
+                                            <textarea class="form-control input rounded formInput" asp-for="registrationModel.NurseryDescEn" style="height:90px;"></textarea>
+                                       <span asp-validation-for="registrationModel.NurseryDescEn" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6">
+                                            <label class="Labels" asp-for="registrationModel.NurseryDescAr">@sharedResource["Nursery Description In Arabic"] </label>
+                                              <textarea class="form-control input rounded formInput" asp-for="registrationModel.NurseryDescAr" style="height:90px;"></textarea>
+                                      <span asp-validation-for="registrationModel.NurseryDescAr" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    </fieldset>
+                                      <fieldset class="form-group border p-5" >
+                                    <legend ><b class="text-primary legenedC">@sharedResource["Nursery Contacts"]</b></legend>
+
+                                    <div class="form-group row">
+
+                                        <div class="col-lg-6 col-md-6">
+
+                                            <label class="Labels" asp-for="registrationModel.Phone1">@sharedResource["Phone1"]  </label>
+                                            <input class="form-control input rounded formInput" asp-for="registrationModel.Phone1" type="number" required />
+                                            <span asp-validation-for="registrationModel.Phone1" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6">
+                                            <label class="Labels" asp-for="registrationModel.Mobile">@sharedResource["Mobile"]  </label>
+                                            <input class="form-control input rounded formInput" asp-for="registrationModel.Mobile" type="number" required />
+                                            <span asp-validation-for="registrationModel.Mobile" class="text-danger"></span>
+                                        </div>
+                        
+                                    </div>
+
+                                    <div class="form-group row">
+
+                                          <div class="col-lg-6 col-md-6">
+
+                                            <label  class="Labels" asp-for="registrationModel.Phone2"> @sharedResource["WhatsApp"] </label>
+                                            <input class="form-control input rounded formInput" asp-for="registrationModel.Phone2" type="number" />
+                                            <span asp-validation-for="registrationModel.Phone2" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6">
+
+                                            <label class="Labels" asp-for="registrationModel.Fax"> @sharedResource["Fax"] </label>
+                                            <input class="form-control input rounded formInput" asp-for="registrationModel.Fax" />
+                                            <span asp-validation-for="registrationModel.Fax" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                     </fieldset>
+                                     <fieldset class="form-group border p-5" >
+                                    <legend  ><b class="text-primary legenedC">@sharedResource["Nursery Location"]</b></legend>
+                                    <div class="form-group row">
+                                         <div id="map" style="height:400px;width:400px;margin:auto"></div>
+                                        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfsM19EfsfREOaCkPjRAVMYdTIXToo0FE&callback=initMap&v=weekly" defer></script>
+                                        
+                                        </div>
+                                       
+                                            <input type="text"   asp-for="registrationModel.Lat" value="" hidden id="LatId" />
+                                            <input type="text"  asp-for="registrationModel.Lng" value="" hidden id="LngId" />
+                                      
+                                    
+                                    </fieldset>
+                                    
+                                      <fieldset class="form-group border p-5" >
+                                          <legend ><b class="text-primary legenedC">@sharedResource["Nursery Social Media"]</b></legend>
+                                    <div class="form-group row">
+
+                                        <div class="col-lg-6 col-md-6">
+                                            <label class="Labels" asp-for="registrationModel.Facebook">@sharedResource["Facebook"] </label>
+                                            <input class="form-control input rounded formInput" asp-for="registrationModel.Facebook" type="url" />
+                                            <span asp-validation-for="registrationModel.Facebook" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6">
+                                            <label class="Labels" asp-for="registrationModel.Instagram ">@sharedResource["Instagram"] </label>
+                                            <input class="form-control input rounded formInput" asp-for="registrationModel.Instagram" type="url" />
+                                            <span asp-validation-for="registrationModel.Instagram" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-lg-6 col-md-6">
+                                            <label class="Labels" asp-for="registrationModel.Twitter">@sharedResource["Twitter"] </label>
+                                            <input class="form-control input rounded formInput" asp-for="registrationModel.Twitter" type="url" />
+                                            <span asp-validation-for="registrationModel.Twitter" class="text-danger"></span>
+                                        </div>
+                                      
+                                    </div>
+                                    </fieldset>
+                                       <fieldset class="form-group border p-5" >
+                                    <legend ><b class="text-primary legenedC">@sharedResource["Nursery Services"]</b></legend>
+
+                                    <div class="form-group row" id="WorkTimeFromId">
+                                        <div class="col-lg-6 col-md-6" id="DateBoxFrom">
+                                            <label  asp-for="registrationModel.WorkTimeFrom">@sharedResource["Work Time From"]  </label>
+                                            @(Html.DevExtreme().DateBoxFor(e=>e.registrationModel.WorkTimeFrom)
+                .Type(DateBoxType.Time).ID("WorkFromDate").RtlEnabled(true)
+            )
+                                            <span id="WorkTimeFromSpan" style="display:none" class="text-danger">Work Time From Is Required</span>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6" id="WorkTimeToId">
+                                            <label asp-for="registrationModel.WorkTimeTo">@sharedResource["Work Time To"]  </label>
+                                            @(Html.DevExtreme().DateBoxFor(e=>e.registrationModel.WorkTimeTo)
+                .Type(DateBoxType.Time).ID("WorkToDate").RtlEnabled(true)
+
+            )
+                                            <span id="WorkTimeToSpan" style="display:none" class="text-danger">Work Time To Is Required</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                          <div class="col-lg-6 col-md-6">
+                                            <label class="Labels" asp-for="registrationModel.AvailableSeats">@sharedResource["No Available Seats"] </label>
+                                            <input class="form-control input rounded formInput" asp-for="registrationModel.AvailableSeats" min="1" required />
+                                            <span asp-validation-for="registrationModel.AvailableSeats" class="text-danger"></span>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6" id="AgeLId">
+                                            <label asp-for="registrationModel.AgeCategoryId">@sharedResource["Age Group"]</label>
+                                            @(Html.DevExtreme().LookupFor(c=>c.registrationModel.AgeCategoryId)
+  .ID("AgeLookupId")
+                                          .DataSource(d => d.WebApi()
+      .Controller("NurseryMembers")
+      .LoadAction("AgeCategoryLookup")
+      .Key("Value")
+  )
+  .ValueExpr("Value")
+.DisplayExpr("Text")
+.Placeholder(sharedResource["Select"])
+                                            .ShowClearButton(true)
+                                            .ClearButtonText(sharedResource["Clear"])
+                                            .CancelButtonText(sharedResource["Cancel"])
+                                            .SearchPlaceholder(sharedResource["searching"]).RtlEnabled(true)
+)
+                                            <span id="AgeSpan" style="display:none" class="text-danger">Age Group Is Required</span>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group row">
+                                        
+                                         <div class="col-lg-6 col-md-6" id="LanguageLId">
+                                            <label asp-for="registrationModel.Language">@sharedResource["Study Language"]  </label>
+                                           @(Html.DevExtreme().TagBoxFor(c=>c.registrationModel.Language)
+ .ID("LanguageIdTagBox")
+ .DataSource(Model.LanguageList)
+ .ValueExpr("LanguageId")
+.DisplayExpr("Title")
+.OnValueChanged(@<text>
+                    function(data) {
+                     $("#ItemIds").val(data.value)
+                    }
+                </text>)
+.Placeholder(sharedResource["Select"])
+                                          
+                                            .ShowSelectionControls(true)
+                                            .RtlEnabled(true)
+)
+                                            <span id="LanguageSpan" style="display:none" class="text-danger">Study Language Is Required</span>
+                                        </div>
+                                         <div class="col-lg-3 col-md-3" style="margin-top: 3rem;">
+                                            <label asp-for="registrationModel.TransportationService">@sharedResource["Delivery Service"] </label>
+                                            @(Html.DevExtreme().CheckBoxFor(e=>e.registrationModel.TransportationService).Value(false).RtlEnabled(true)
+
+)                <div>
+                                                <span asp-validation-for="registrationModel.TransportationService" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-3 "  style="margin-top: 3rem;">
+                                            <label asp-for="registrationModel.SpecialNeeds">@sharedResource["Special Needs"]  </label>
+                                            @(Html.DevExtreme().CheckBoxFor(e=>e.registrationModel.SpecialNeeds).Value(false).RtlEnabled(true)
+)
+                                            <span asp-validation-for="registrationModel.SpecialNeeds" class="text-danger"></span>
+                                        </div>
+                                       
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-lg-6 col-md-6" id="CountryLId">
+                                            <label asp-for="registrationModel.CountryId">@sharedResource["Country"]  </label>
+                                            @(Html.DevExtreme().LookupFor(c=>c.registrationModel.CountryId)
+        .ID("CountryLookupId")
+  .DataSource(d => d.WebApi()
+
+      .Controller("Cities")
+      .LoadAction("ActiveCountryLookup")
+      .Key("Value")
+  )
+
+  .ValueExpr("Value")
+.DisplayExpr("Text")
+.OnSelectionChanged("GetCities")
+
+.Placeholder(sharedResource["Select"])
+                                            .ShowClearButton(true)
+                                            .ClearButtonText(sharedResource["Clear"])
+                                            .CancelButtonText(sharedResource["Cancel"])
+                                            .SearchPlaceholder(sharedResource["searching"]).RtlEnabled(true)
+)
+                                            <span id="CountrySpan" style="display:none" class="text-danger">Country Is Required</span>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6" id="CityLId">
+                                            <label asp-for="registrationModel.CityId">@sharedResource["City"]  </label>
+                                            @(Html.DevExtreme().LookupFor(c=>c.registrationModel.CityId)
+        .ID("CitiesLookupId")
+  .DataSource(d => d.WebApi()
+      .Controller("Areas")
+      .LoadAction("CityLookup")
+      .Key("Value")
+      .LoadParams(new {CountryId=0})
+  )
+  .ValueExpr("Value")
+.DisplayExpr("Text")
+.OnOpened("Cityopen")
+.OnSelectionChanged("GetArea")
+.Placeholder(sharedResource["Select"])
+                                            .ShowClearButton(true)
+                                            .ClearButtonText(sharedResource["Clear"])
+                                            .CancelButtonText(sharedResource["Cancel"])
+                                            .SearchPlaceholder(sharedResource["searching"]).RtlEnabled(true)
+)
+                                            <span id="CitySpan" style="display:none" class="text-danger">City Is Required</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <div class="col-lg-6 col-md-6" id="AreaLId">
+                                            <label asp-for="registrationModel.AreaId">@sharedResource["Area"]  </label>
+                                            @(Html.DevExtreme().LookupFor(c=>c.registrationModel.AreaId)
+        .ID("AreaLookupId")
+  .DataSource(d => d.WebApi()
+
+      .Controller("Cities")
+      .LoadAction("AreasLookup")
+      .Key("Value")
+       .LoadParams(new {CityId=0})
+  )
+
+  .ValueExpr("Value")
+.DisplayExpr("Text")
+.OnOpened("Areaopen")
+.Placeholder(sharedResource["Select"])
+                                            .ShowClearButton(true)
+                                            .ClearButtonText(sharedResource["Clear"])
+                                            .CancelButtonText(sharedResource["Cancel"])
+                                            .SearchPlaceholder(sharedResource["searching"]).RtlEnabled(true)
+)
+                                            <span id="AreaSpan" style="display:none" class="text-danger">Area Is Required</span>
+
+                                        </div>
+                                     </div> 
+                                     </fieldset>
+                                     <fieldset class="form-group border p-5" >
+                                    <legend ><b class="text-primary legenedC">@sharedResource["Nursery Media"]</b></legend>
+                                       <div class="form-group row">
+                                        <div class="col-lg-6 col-md-6 custom-file">
+                                            <input type="file" name="Logo" accept=".png, .jpg, .jpeg" class="formInput custom-file-input" id="Photo" onchange="changephotoname()" required>
+                                            <label class="Labels custom-file-label" id="photolabel" for="Logo">@sharedResource["Choose Logo"]</label>
+                                        </div>
+
+                                        <div class="col-lg-6 col-md-6 custom-file">
+                                            <input type="file" name="Banner" accept=".png, .jpg, .jpeg" class="formInput custom-file-input form-control input rounded" onchange="changeBannerphotoname()" id="BannerPhoto" required>
+                                            <label  class="Labels custom-file-label" for="Banner" id="Bannerphotolabel">@sharedResource["Choose Banner photo"]</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <div class="col-lg-6 col-md-6 custom-file">
+                                            <input type="file" name="ImageFielsList" multiple="multiple" accept=".png, .jpg, .jpeg" class="custom-file-input form-control input rounded formInput" onchange="changeImageFielsListphotoname()" id="ImageFielsListPhoto">
+                                            <label  class="Labels custom-file-label " for="ImageFielsList" id="ImageFielsListphotolabel">@sharedResource["Choose More Photos"]</label>
+                                        </div>
+                                    </div>
+                                    </fieldset>
+                                     <fieldset class="form-group border p-5" >
+                                    <legend ><b class="text-primary legenedC">@sharedResource["Nursery Pay"]</b></legend>
+                                    <div class="form-group row" >
+                                    <div class="col-lg-6 col-md-6" id="PlanLId">
+                                            <label asp-for="registrationModel.PlanId">@sharedResource["Plan"]  </label>
+                                            @(Html.DevExtreme().LookupFor(c=>c.registrationModel.PlanId)
+        .ID("PlanLookupId")
+  .DataSource(d => d.WebApi()
+
+      .Controller("NurserySubscriptions")
+      .LoadAction("ActivePlanLookup")
+      .Key("Value")
+      .LoadParams(new{CountryId=0})
+  )
+  .ValueExpr("Value")
+.DisplayExpr("Text")
+.Placeholder(sharedResource["Select"])
+                                            .ShowClearButton(true)
+                                            .ClearButtonText(sharedResource["Clear"])
+                                            .CancelButtonText(sharedResource["Cancel"])
+                                            .SearchPlaceholder(sharedResource["searching"]).RtlEnabled(true)
+)
+                                            <span id="PlanSpan" style="display:none" class="text-danger">Plan Is Required</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                         <div class="col-lg-6 col-md-6" id="PlanTypeLId">
+                                            <label asp-for="registrationModel.PlanTypeId">@sharedResource["Plan Type"] </label>
+                                            @(Html.DevExtreme().LookupFor(c=>c.registrationModel.PlanTypeId)
+        .ID("PlanTypeLookupId")
+  .DataSource(d => d.WebApi()
+
+      .Controller("Plans")
+      .LoadAction("PlanTypeLookup")
+      .Key("Value")
+  )
+  .ValueExpr("Value")
+.DisplayExpr("Text")
+.Placeholder(sharedResource["Select"])
+                                            .ShowClearButton(true)
+                                            .ClearButtonText(sharedResource["Clear"])
+                                            .CancelButtonText(sharedResource["Cancel"])
+                                            .SearchPlaceholder(sharedResource["searching"]).RtlEnabled(true)
+)
+                                            <span id="PlanTypeSpan" style="display:none" class="text-danger">Plan Type Is Required</span>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6" id="PaymentLId">
+                                            <label asp-for="registrationModel.PaymentMethodId">@sharedResource["Payment Method"] </label>
+                                            @(Html.DevExtreme().LookupFor(c=>c.registrationModel.PaymentMethodId)
+ .ID("PaymentLookupId")
+                                            .DataSource(d => d.WebApi()
+
+      .Controller("Cities")
+      .LoadAction("PaymentMethodsLookup")
+      .Key("Value")
+  )
+
+  .ValueExpr("Value")
+.DisplayExpr("Text")
+.Placeholder(sharedResource["Select"])
+                                            .ShowClearButton(true)
+                                            .ClearButtonText(sharedResource["Clear"])
+                                            .CancelButtonText(sharedResource["Cancel"])
+                                            .SearchPlaceholder(sharedResource["searching"]).RtlEnabled(true)
+)
+
+                                            <span id="PaymentSpan" style="display:none" class="text-danger">Payment Method Is Required</span>
+                                        </div>
+                                         
+                                    </div>
+                                    </fieldset>
+                                    <button type="submit" class="button button-3">
+                                    <span class="button-inner">
+                                        <span class="button-content">
+                                            <span class="text">@sharedResource["Register"]</span>
+                                        </span>
+                                    </span>
+                                </button>
+                                     
+                                   @* <div class="col-md-12 text-center">
+                                        <button type="submit" class="btn submit-btn btn-primary mt-3" style="font-size: 15px;">  </button>
+                                    </div>*@
+                                </form>
+
+
+                        </div>
+                    </div>
+                    <!--
+                    contact form - end
+                    -->
+                </div>
+             
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@await Component.InvokeAsync("NToastNotify")
+
+
+
+
+
+
+
+@*</body>
+
+    </html>*@
+    <partial name="_ValidationScriptsPartial" />
+<script>
+    var flag=false;
+    function initMap() {
+         var markers = [];
+         var uniqueId = 1;
+        var myLatlng = { lat: 29.378586, lng: 47.990341 };
+        var map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 4,
+            center: myLatlng,
+        });
+        
+        var infoWindow = new google.maps.InfoWindow({
+            content: "Select Location",
+            position: myLatlng,
+        });
+   
+        infoWindow.open(map);
+        map.addListener("click", function (mapsMouseEvent) {
+         ///////////////////////////
+            
+          var jsonobj=JSON.stringify(mapsMouseEvent.latLng.toJSON());
+          var myObj = JSON.parse(jsonobj);
+            sendReq(myObj);
+            var MarkerObj={lat: myObj.lat, lng: myObj.lng};
+            var marker = new google.maps.Marker({
+                position: MarkerObj,
+                map: map
+            });
+            marker.id = uniqueId;
+            uniqueId++;
+            markers.push(marker);
+               for (var i = 0; i < markers.length; i++) {
+            if (markers[i].id == marker.id-1) {               
+                markers[i].setMap(null);
+                markers.splice(i, 1);
+                return;
+            }
+        }
+            infoWindow.open(map, marker);
+            infoWindow.close();
+        infoWindow = new google.maps.InfoWindow({
+                position: mapsMouseEvent.latLng,
+            });
+            //infoWindow.setContent(JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2));
+            //infoWindow.open(map);
+                });
+          
+    }
+    window.initMap = initMap;
+    function sendReq(obj){
+        flag=true;
+        console.log(obj);
+        document.getElementById("LatId").value=obj.lat;
+        document.getElementById("LngId").value=obj.lng;
+        }
+        
+ 
+
+
+    function Cityopen(){
+         var CountryLock = $("#CountryLookupId").dxLookup("instance");
+        var SelectedCountry = CountryLock.option("selectedItem");
+        console.log(SelectedCountry)
+        if (SelectedCountry == null) {
+            alert("You must select country first")
+        }
+    }
+      function Areaopen(){
+          var CityLock = $("#CitiesLookupId").dxLookup("instance");
+        var SelectedCity = CityLock.option("selectedItem");
+        console.log(SelectedCity)
+        if (SelectedCity == null) {
+            alert("You must select city first")
+        }
+    }
+    function GetCities() {
+
+        var CountryLock = $("#CountryLookupId").dxLookup("instance");
+        var SelectedCountry = CountryLock.option("selectedItem");
+        console.log(SelectedCountry)
+        if (SelectedCountry != null) {
+            $.ajax({
+
+                type: "GET",
+                url: "/NurseryRegister?handler=FillCityList",
+                data: { "values": SelectedCountry.Value },
+                contentType: "application/json",
+                dataType: "json",
+                success: function (response) {
+                    console.log("List Cities" + response)
+                    var CityLock = $("#CitiesLookupId").dxLookup("instance");
+                    console.log(CityLock)
+                    CityLock.option("dataSource", response)
+
+                },
+                failure: function (response) {
+                    alert(response);
+                }
+            });
+            $.ajax({
+
+                type: "GET",
+                url: "/NurseryRegister?handler=FillPlanList",
+                data: { "values": SelectedCountry.Value },
+                contentType: "application/json",
+                dataType: "json",
+                success: function (response) {
+                    console.log("List Cities" + response)
+                    var PlanLock = $("#PlanLookupId").dxLookup("instance");
+                    console.log(PlanLock)
+                    PlanLock.option("dataSource", response)
+                    PlanLock.refresh()
+
+                },
+                failure: function (response) {
+                    alert(response);
+                }
+            });
+
+
+        }
+
+    }
+
+
+    function GetArea() {
+        var CityLock = $("#CitiesLookupId").dxLookup("instance");
+        var SelectedCity = CityLock.option("selectedItem");
+        console.log(SelectedCity)
+        if (SelectedCity != null) {
+            $.ajax({
+
+                type: "GET",
+                url: "/NurseryRegister?handler=FillAreaList",
+                data: { "values": SelectedCity.Value },
+                contentType: "application/json",
+                dataType: "json",
+                success: function (response) {
+                    console.log("List Cities" + response)
+                    var AreaLock = $("#AreaLookupId").dxLookup("instance");
+                    console.log(CityLock)
+                    AreaLock.option("dataSource", response)
+                    AreaLock.refresh()
+
+                },
+                failure: function (response) {
+                    alert(response);
+                }
+            });
+
+        }
+    }
+
+    function changephotoname() {
+        console.log("in photo")
+        var fileName = document.getElementById("Photo").value.split("\\").pop();
+        document.getElementById("photolabel").innerHTML = fileName;
+
+    }
+    function changeBannerphotoname() {
+        console.log("in photo")
+        var BannerfileName = document.getElementById("BannerPhoto").value.split("\\").pop();
+        document.getElementById("Bannerphotolabel").innerHTML = BannerfileName;
+    }
+    function changeImageFielsListphotoname() {
+        console.log("in photo")
+        var ConcatFilesName = "";
+
+        var ImageFielsListfileName = document.getElementById("ImageFielsListPhoto").value.split("\\").pop();
+        document.getElementById("ImageFielsListphotolabel").innerHTML = ImageFielsListfileName;
+    }
+    function validateMyForm() {
+        var LanguageLocks = $("#LanguageIdTagBox").dxTagBox("instance");
+          console.log("LanguageLocks + "+LanguageLocks);
+        var SelectedLanguageId = LanguageLocks.option("value");
+        console.log("Items + "+SelectedLanguageId);
+        console.log(flag);
+        if(flag==false){
+            alert("You Must Select Location From Map");
+            return false;
+        }
+        var WorkDateBoxFrom = $("#WorkFromDate").dxDateBox("instance");
+        var WorkDateBoxFromValue = WorkDateBoxFrom.option('value');
+        var WorkDateBoxTo = $("#WorkToDate").dxDateBox("instance");
+        var WorkDateBoxToValue = WorkDateBoxTo.option('value');
+
+        var CountryLocks = $("#CountryLookupId").dxLookup("instance");
+        var SelectedCountryId = CountryLocks.option("selectedItem");
+        console.log(SelectedCountryId)
+        var CityLocks = $("#CitiesLookupId").dxLookup("instance");
+        var SelectedCityId = CityLocks.option("selectedItem");
+        var AreaLocks = $("#AreaLookupId").dxLookup("instance");
+        var SelectedAreaId = AreaLocks.option("selectedItem");
+        var PlanLocks = $("#PlanLookupId").dxLookup("instance");
+        var SelectedPlanId = PlanLocks.option("selectedItem");
+        var PaymentLocks = $("#PaymentLookupId").dxLookup("instance");
+        var SelectedPaymentId = PaymentLocks.option("selectedItem");
+        var AgeLocks = $("#AgeLookupId").dxLookup("instance");
+        var SelectedAgeId = AgeLocks.option("selectedItem");
+        //var LanguageLocks = $("#LanguageLookupId").dxLookup("instance");
+        //var SelectedLanguageId = LanguageLocks.option("selectedItem");
+        console.log(SelectedCityId);
+        var CountrySpan = document.getElementById("CountrySpan")
+        var CitySpan = document.getElementById("CitySpan")
+        var AreaSpan = document.getElementById("AreaSpan")
+        var PlanSpan = document.getElementById("PlanSpan")
+        var PaymentSpan = document.getElementById("PaymentSpan")
+        var AgeSpan = document.getElementById("AgeSpan")
+        var LanguageSpan = document.getElementById("LanguageSpan")
+        var WorkTimeToSpan = document.getElementById("WorkTimeToSpan")
+        var WorkTimeFromSpan = document.getElementById("WorkTimeFromSpan")
+        if (WorkDateBoxFromValue != null || WorkDateBoxToValue != null || SelectedCountryId != null || SelectedCityId != null || SelectedAreaId != null || SelectedPlanId != null || SelectedPaymentId != null || SelectedAgeId != null || SelectedLanguageId != null) {
+            CountrySpan.style.display = "none";
+            CitySpan.style.display = "none";
+            AreaSpan.style.display = "none";
+            PlanSpan.style.display = "none";
+            PaymentSpan.style.display = "none";
+            AgeSpan.style.display = "none";
+            LanguageSpan.style.display = "none";
+            WorkTimeFromSpan.style.display = "none";
+            WorkTimeToSpan.style.display = "none";
+        }
+        if (WorkDateBoxFromValue == null) {
+            WorkTimeFromSpan.style.display = "flex";
+            window.location.href = "#WorkTimeFromId";
+            return false;
+        }
+        else if (WorkDateBoxToValue == null) {
+            WorkTimeToSpan.style.display = "flex";
+            window.location.href = "#WorkTimeToId";
+            return false;
+        }
+        else if (SelectedAgeId == null) {
+            AgeSpan.style.display = "flex";
+            PaymentSpan.style.display = "none";
+            window.location.href = "#AgeLId";
+            return false;
+        }
+        else if (SelectedLanguageId == null) {
+            LanguageSpan.style.display = "flex";
+            AgeSpan.style.display = "none";
+            window.location.href = "#LanguageLId";
+            return false;
+        }
+        else if (SelectedCountryId == null) {
+            CountrySpan.style.display = "flex";
+            window.location.href = "#CountryLId";
+            return false;
+        }
+
+        else if (SelectedCityId == null) {
+            CitySpan.style.display = "flex";
+            CountrySpan.style.display = "none";
+            window.location.href = "#CityLId";
+            return false;
+        }
+        else if (SelectedAreaId == null) {
+            AreaSpan.style.display = "flex";
+            CitySpan.style.display = "none";
+            window.location.href = "#AreaLId";
+            return false;
+        }
+        else if (SelectedPlanId == null) {
+            PlanSpan.style.display = "flex";
+            AreaSpan.style.display = "none";
+            window.location.href = "#PlanLId";
+            return false;
+        }
+        else if (SelectedPaymentId == null) {
+            PaymentSpan.style.display = "flex";
+            PlanSpan.style.display = "none";
+            window.location.href = "#PaymentLId";
+            return false;
+        }
+
+
+        else {
+
+            return true;
+        }
+
+    }
+</script>
